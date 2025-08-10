@@ -56,8 +56,8 @@ export function Hero() {
           </span>
         </h1>
         <div className="mt-5 max-w-3xl mx-auto">
-          <p className="text-lg sm:text-xl text-white/95  bg-black/20 backdrop-blur border rounded lg:rounded-lg px-4 py-3 inline-block">
-            <span data-i18n="hero.subtitle">
+          <p className="text-lg sm:text-xl text-white/95  bg-black/20 backdrop-blur border border-foreground/30 lg:border-none rounded-lg px-4 py-3 inline-block">
+            <span data-i18n="hero.subtitle" className="font-inter font-semibold bg-gradient-to-r from-sky-300 via-white to-sky-300 bg-clip-text text-transparent">
               Conférence dédiée à la cybersécurité, l’open source et Linux
             </span>
           </p>

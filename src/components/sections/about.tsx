@@ -11,7 +11,7 @@ export function About() {
         </p>
       </div>
       <div className="mt-12 grid gap-6 sm:grid-cols-3">
-        <Card>
+        <Card className="border border-border overflow-hidden rounded-lg">
           <CardHeader className="bg-card/40 backdrop-blur rounded-t-lg">
             <div className="flex items-center gap-2">
               <Shield className="h-6 w-6 text-primary" />
@@ -22,7 +22,7 @@ export function About() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card>
+        <Card className="border border-border overflow-hidden rounded-lg">
           <CardHeader className="bg-card/40 backdrop-blur rounded-t-lg">
             <div className="flex items-center gap-2">
               <Lock className="h-6 w-6 text-primary" />
@@ -33,7 +33,7 @@ export function About() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card>
+        <Card className="border border-border overflow-hidden rounded-lg">
           <CardHeader className="bg-card/40 backdrop-blur rounded-t-lg">
             <div className="flex items-center gap-2">
               <Terminal className="h-6 w-6 text-primary" />
