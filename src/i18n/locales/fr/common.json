@@ -1,0 +1,116 @@
+{
+  "nav": {
+    "home": "Accueil LOSL-C",
+  "joinCommunity": "Rejoindre la communauté",
+  "sponsor": "Devenir sponsor"
+  },
+  "hero": {
+    "title": "LOSL-CON 2025",
+    "subtitle": "Conférence dédiée à la cybersécurité, l’open source et Linux",
+    "highlight": "Les inscriptions commencent bientôt",
+    "cta": "Rejoindre la communauté"
+  },
+  "about": {
+    "heading": "À propos de LOSL-CON",
+    "body": "LOSL-CON est un événement communautaire centré sur la liberté numérique, la sécurité et l’adoption des technologies open source & Linux. Nous rassemblons passionnés, professionnels et curieux pour apprendre, partager et bâtir un futur numérique plus libre et plus sûr.",
+    "values": {
+      "freedom": {
+        "title": "Liberté numérique",
+        "desc": "Promouvoir l’autonomie technologique, la confidentialité et le contrôle de ses données."
+      },
+      "security": {
+        "title": "Sécurité",
+        "desc": "Renforcer les pratiques de cybersécurité et la résilience des systèmes."
+      },
+      "open": {
+        "title": "Open source & Linux",
+        "desc": "Encourager l’usage, la contribution et le partage autour de l’open source et Linux."
+      }
+    }
+  },
+  "expect": {
+    "heading": "Ce qui vous attend",
+    "items": {
+      "talks": "Conférences inspirantes",
+      "workshops": "Ateliers pratiques",
+      "networking": "Rencontres & networking",
+      "discovery": "Découverte de projets open source"
+    }
+  },
+  "join": {
+    "heading": "Restez informé",
+    "text": "Rejoignez la communauté pour recevoir les dernières nouvelles, annonces d’ouverture des inscriptions et opportunités de participation.",
+    "ctaCommunity": "Rejoindre la communauté",
+    "ctaWaitlist": "Rejoindre la liste d’attente",
+    "scan": "Scannez le QR pour la liste d’attente"
+  },
+  "footer": {
+    "rights": "© {{year}} LOSL-C. Tous droits réservés.",
+    "links": {
+      "home": "Accueil LOSL-C",
+      "waitlist": "Liste d’attente",
+      "community": "Communauté"
+    }
+  },
+  "lang": {
+    "fr": "FR",
+    "en": "EN"
+  },
+  "sponsor": {
+    "title": "Devenez sponsor – LOSL-CON 2025",
+  "subtitle": "Accédez à une audience engagée. Gagnez en visibilité. Recrutez vos futurs talents.",
+    "badges": {
+      "top": "Top visibilité",
+      "popular": "Populaire"
+    },
+    "tiers": {
+      "gold": {
+        "name": "Gold",
+        "benefit1": "Logo XXL sur scène & site",
+        "benefit2": "Message d’ouverture (3–5 min)",
+        "benefit3": "Espace stand premium",
+        "benefit4": "10 Pass VIP",
+        "benefit5": "Campagnes sur nos réseaux"
+      },
+      "silver": {
+        "name": "Silver",
+        "benefit1": "Grand logo sur scène & site",
+        "benefit2": "Participation à un panel",
+        "benefit3": "Espace stand dédié",
+        "benefit4": "6 Pass",
+        "benefit5": "Mention newsletter"
+      },
+      "bronze": {
+        "name": "Bronze",
+        "benefit1": "Logo sur site & écrans",
+        "benefit2": "3 Pass",
+        "benefit3": "Merci sur réseaux sociaux",
+        "benefit4": "Ajout goodies dans le swag",
+        "benefit5": "Listing sur la page sponsors"
+      },
+      "custom": {
+        "name": "Autre contribution",
+        "note": "Contact personnalisé",
+        "benefit1": "Pack sur-mesure",
+        "benefit2": "Budget flexible",
+        "benefit3": "Idéal startups & communautés",
+        "benefit4": "Objectifs co-construits",
+        "benefit5": "Activation adaptée"
+      }
+    },
+    "features": {
+      "mediaBoost": "Media boost",
+      "talentReach": "Talent reach",
+      "sceneTime": "Scene time"
+    },
+    "cta": {
+      "gold": "Je deviens sponsor",
+      "silver": "Je deviens sponsor",
+      "bronze": "Je deviens sponsor",
+      "custom": "Je deviens sponsor"
+    },
+    "contact": {
+      "heading": "Pour toute demande ou proposition de sponsoring, contactez-nous à :"
+    }
+  }
+}

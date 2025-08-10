@@ -1,0 +1,116 @@
+{
+  "nav": {
+    "home": "LOSL-C Home",
+  "joinCommunity": "Join the community",
+  "sponsor": "Become a sponsor"
+  },
+  "hero": {
+    "title": "LOSL-CON 2025",
+    "subtitle": "Conference dedicated to cybersecurity, open source and Linux",
+    "highlight": "Registrations opening soon",
+    "cta": "Join the community"
+  },
+  "about": {
+    "heading": "About LOSL-CON",
+    "body": "LOSL-CON is a community event focused on digital freedom, security, and the adoption of open source & Linux technologies. We bring together enthusiasts, professionals, and curious minds to learn, share, and build a freer and safer digital future.",
+    "values": {
+      "freedom": {
+        "title": "Digital freedom",
+        "desc": "Promote technological autonomy, privacy, and control of one’s data."
+      },
+      "security": {
+        "title": "Security",
+        "desc": "Strengthen cybersecurity practices and system resilience."
+      },
+      "open": {
+        "title": "Open source & Linux",
+        "desc": "Encourage usage, contribution, and sharing around open source and Linux."
+      }
+    }
+  },
+  "expect": {
+    "heading": "What to expect",
+    "items": {
+      "talks": "Inspiring talks",
+      "workshops": "Hands-on workshops",
+      "networking": "Meetups & networking",
+      "discovery": "Open source project discovery"
+    }
+  },
+  "join": {
+    "heading": "Stay informed",
+    "text": "Join the community to get the latest news, registration opening announcements and participation opportunities.",
+    "ctaCommunity": "Join the community",
+    "ctaWaitlist": "Join the waitlist",
+    "scan": "Scan the QR for the waitlist"
+  },
+  "footer": {
+    "rights": "© {{year}} LOSL-C. All rights reserved.",
+    "links": {
+      "home": "LOSL-C Home",
+      "waitlist": "Waitlist",
+      "community": "Community"
+    }
+  },
+  "lang": {
+    "fr": "FR",
+    "en": "EN"
+  },
+  "sponsor": {
+    "title": "Become a sponsor – LOSL-CON 2025",
+  "subtitle": "Reach an engaged audience. Boost your visibility. Hire your next talents.",
+    "badges": {
+      "top": "Top visibility",
+      "popular": "Popular"
+    },
+    "tiers": {
+      "gold": {
+        "name": "Gold",
+        "benefit1": "XXL logo on stage & website",
+        "benefit2": "Opening message (3–5 min)",
+        "benefit3": "Premium booth space",
+        "benefit4": "10 VIP passes",
+        "benefit5": "Campaigns on our socials"
+      },
+      "silver": {
+        "name": "Silver",
+        "benefit1": "Large logo on stage & website",
+        "benefit2": "Join a panel discussion",
+        "benefit3": "Dedicated booth space",
+        "benefit4": "6 passes",
+        "benefit5": "Newsletter mention"
+      },
+      "bronze": {
+        "name": "Bronze",
+        "benefit1": "Logo on website & screens",
+        "benefit2": "3 passes",
+        "benefit3": "Social media thanks",
+        "benefit4": "Add goodies to swag",
+        "benefit5": "Listed on sponsors page"
+      },
+      "custom": {
+        "name": "Other contribution",
+        "note": "Custom contact",
+        "benefit1": "Tailored package",
+        "benefit2": "Flexible budget",
+        "benefit3": "Ideal for startups & communities",
+        "benefit4": "Co-built objectives",
+        "benefit5": "Fitted activations"
+      }
+    },
+    "features": {
+      "mediaBoost": "Media boost",
+      "talentReach": "Talent reach",
+      "sceneTime": "Stage time"
+    },
+    "cta": {
+      "gold": "Become a sponsor",
+      "silver": "Become a sponsor",
+      "bronze": "Become a sponsor",
+      "custom": "Become a sponsor"
+    },
+    "contact": {
+      "heading": "For any sponsorship request or proposal, contact us at:"
+    }
+  }
+}
