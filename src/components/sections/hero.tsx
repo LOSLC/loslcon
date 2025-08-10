@@ -56,7 +56,7 @@ export function Hero() {
           </span>
         </h1>
         <div className="mt-5 max-w-3xl mx-auto">
-          <p className="text-lg sm:text-xl text-white/95  bg-black/20 backdrop-blur rounded lg:rounded-lg px-4 py-3 inline-block">
+          <p className="text-lg sm:text-xl text-white/95  bg-black/20 backdrop-blur border rounded lg:rounded-lg px-4 py-3 inline-block">
             <span data-i18n="hero.subtitle">
               Conférence dédiée à la cybersécurité, l’open source et Linux
             </span>
