@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# loslcon
 
-## Getting Started
+A fast, localized website built with Next.js 15, React 19, and Tailwind CSS 4. English and French translations are included.
 
-First, run the development server:
+## About
+LOSL-CON is an annual African tech conference that brings together developers, cybersecurity specialists, creators, and tech enthusiasts for a day (or more) of learning, collaboration, and innovation.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+It’s hosted by LOSL-C, a growing African open-source and Linux community, and features expert talks, practical workshops, live demos, and networking opportunities. The event’s goal is to showcase local talent, connect people across industries, and inspire the next generation of tech builders in Africa.
+
+## Tech stack
+- Next.js (App Router, Turbopack)
+- React 19
+- Tailwind CSS v4
+- i18n with i18next / next-i18next
+
+## Quick start
+Requirements: Node.js 18.18+ (or 20+)
+
+Install dependencies (choose one):
+
+```sh
+# bun
+bun install
+
+# pnpm
+pnpm install
+
+# npm
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the dev server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+bun dev
+# or: pnpm dev / npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build and start:
 
-## Learn More
+```sh
+pnpm build && pnpm start
+# or: bun run build && bun run start / npm run build && npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+Lint:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+pnpm lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Localization
+- Locale files: `src/i18n/locales/{en,fr}/common.json`
+- Language switcher: `src/components/language-switcher.tsx`
+- i18n config: `src/i18n/settings.ts` and `src/i18n/config.ts`
 
-## Deploy on Vercel
+## Project structure
+```
+src/
+	app/              # App Router pages and layout
+	components/       # UI, sections, i18n helpers, site header/footer
+	i18n/             # i18next + next-i18next setup and locales
+	lib/              # links, utils
+public/             # static assets
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+Any Next.js-compatible platform (e.g., Vercel). Build with `next build` and start with `next start`.
