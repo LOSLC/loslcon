@@ -5,9 +5,9 @@ import { Trophy, Medal, Award, Sparkles, CheckCircle2, Megaphone, Users, Mic2 } 
 const RATE_XOF_PER_USD = 600;
 
 const tiers = [
-	{ key: "gold", xof: 1_000_000 },
-	{ key: "silver", xof: 500_000 },
-	{ key: "bronze", xof: 200_000 },
+	{ key: "gold", xof: 600_000 },
+	{ key: "silver", xof: 300_000 },
+	{ key: "bronze", xof: 100_000 },
 	{ key: "custom", xof: null as number | null },
 ] as const;
 
