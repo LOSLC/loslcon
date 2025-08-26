@@ -5,7 +5,7 @@ import { BackgroundPaths } from "@/components/ui/background-paths";
 
 export function Hero() {
   return (
-    <BackgroundPaths className="relative isolate overflow-hidden">
+    <BackgroundPaths className="relative overflow-hidden w-screen h-screen min-h-40">
       <div className="container mx-auto max-w-6xl px-4 py-24 sm:py-36 text-center text-background">
         <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium ring-1 ring-white/40 backdrop-blur">
           <span data-i18n="hero.highlight" className="text-foreground">
@@ -14,21 +14,21 @@ export function Hero() {
         </div>
         <h1 className="mt-6 text-5xl font-extrabold tracking-tight sm:text-7xl drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
           <span
-            className="bg-gradient-to-r from-sky-300 via-white to-sky-300 bg-clip-text text-transparent"
+            className="bg-gradient-to-t from-neutral-600 to-white bg-clip-text text-transparent"
             data-i18n="hero.title"
           >
             LOSL-CON 2025
           </span>
         </h1>
         <div className="mt-5 max-w-3xl mx-auto">
-          <p className="text-lg sm:text-xl text-white/95  bg-black/20 border border-foreground/30 lg:border-none rounded-lg px-4 py-3 inline-block">
+          <p className="text-lg sm:text-xl text-white/95  border border-foreground/30 lg:border-none rounded-lg px-4 py-3 inline-block">
             <span data-i18n="hero.subtitle" className="font-inter font-semibold bg-gradient-to-r from-sky-300 via-white to-sky-300 bg-clip-text text-transparent">
               Conférence dédiée à la cybersécurité, l’open source et Linux
             </span>
           </p>
         </div>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Button asChild size="lg" className="shadow-lg">
+          <Button asChild size="lg" className="">
             <a href={LINKS.community} target="_blank" rel="noreferrer">
               <span data-i18n="hero.cta">Rejoindre la communauté</span>
             </a>
@@ -60,7 +60,7 @@ export function Hero() {
             rel="noreferrer"
             className="inline-flex h-11 items-center justify-center rounded-lg border border-white/30 bg-white/5 px-5 text-sm font-medium text-white/90 backdrop-blur transition hover:bg-white/10"
           >
-            <span data-i18n="nav.home">Accueil LOSL-C</span>
+            <span data-i18n="nav.home">LOSL-C</span>
           </a>
         </div>
       </div>
