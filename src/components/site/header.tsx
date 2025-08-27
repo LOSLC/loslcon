@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { LINKS } from "@/lib/links";
 import { ensureI18n } from "@/i18n/config";
 import { Menu, X } from "lucide-react";
 import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function Header() {
   const [navBg, setNavBg] = useState(false);
@@ -85,6 +86,16 @@ function MobileNav() {
       document.body.style.overflow = original || "";
     };
   }, [open, mounted]);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!mounted) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mounted]);
   return (
     <div className="md:hidden">
       <Button
@@ -97,53 +108,70 @@ function MobileNav() {
         <Menu className="h-5 w-5" />
       </Button>
 
-      {mounted && open
+      {mounted
         ? createPortal(
-          <div className="fixed inset-0 z-[100]">
-            <div
-              className="absolute inset-0 bg-black/70"
-              aria-hidden
-              onClick={() => setOpen(false)}
-            />
-            <div className="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-background border-l border-white/10 shadow-2xl p-4 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Image src="/logo.png" alt="LOSL-C" width={28} height={28} className="rounded" />
-                  <span className="text-sm font-medium">LOSL-CON</span>
-                </div>
-                <Button aria-label="Close menu" variant="outline" size="icon" onClick={() => setOpen(false)}>
-                  <X className="h-5 w-5" />
-                </Button>
+          <AnimatePresence>
+            {open && (
+              <div className="fixed inset-0 z-[100]">
+                <motion.div
+                  className="absolute inset-0 bg-black/70"
+                  aria-hidden
+                  onClick={() => setOpen(false)}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                />
+                <motion.div
+                  className="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-background border-l border-white/10 shadow-2xl p-4 flex flex-col gap-3"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Mobile Menu"
+                  initial={{ x: "100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "100%" }}
+                  transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.9 }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Image src="/logo.png" alt="LOSL-C" width={28} height={28} className="rounded" />
+                      <span className="text-sm font-medium">LOSL-CON</span>
+                    </div>
+                    <Button aria-label="Close menu" variant="outline" size="icon" onClick={() => setOpen(false)}>
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
+                  <nav className="mt-2 grid gap-2">
+                    <Link href={LINKS.home} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
+                      <span data-i18n="nav.home">Accueil LOSL-C</span>
+                    </Link>
+                    <Link href={LINKS.community} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
+                      <span data-i18n="nav.joinCommunity">Rejoindre la communauté</span>
+                    </Link>
+                    <Link href="/devenir-sponsor" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
+                      <span data-i18n="nav.sponsor">Devenir sponsor</span>
+                    </Link>
+                  </nav>
+                  <div className="mt-3 h-px bg-border" />
+                  <div className="flex items-center justify-between">
+                    <LanguageSwitcher />
+                    <div className="flex gap-2">
+                      <Button asChild size="sm">
+                        <a href={LINKS.community} target="_blank" rel="noreferrer">
+                          <span data-i18n="nav.joinCommunity">Rejoindre</span>
+                        </a>
+                      </Button>
+                      <Button asChild size="sm" variant="accent">
+                        <a href="/devenir-sponsor">
+                          <span data-i18n="nav.sponsor">Sponsor</span>
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
-              <nav className="mt-2 grid gap-2">
-                <Link href={LINKS.home} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
-                  <span data-i18n="nav.home">Accueil LOSL-C</span>
-                </Link>
-                <Link href={LINKS.community} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
-                  <span data-i18n="nav.joinCommunity">Rejoindre la communauté</span>
-                </Link>
-                <Link href="/devenir-sponsor" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
-                  <span data-i18n="nav.sponsor">Devenir sponsor</span>
-                </Link>
-              </nav>
-              <div className="mt-3 h-px bg-border" />
-              <div className="flex items-center justify-between">
-                <LanguageSwitcher />
-                <div className="flex gap-2">
-                  <Button asChild size="sm">
-                    <a href={LINKS.community} target="_blank" rel="noreferrer">
-                      <span data-i18n="nav.joinCommunity">Rejoindre</span>
-                    </a>
-                  </Button>
-                  <Button asChild size="sm" variant="accent">
-                    <a href="/devenir-sponsor">
-                      <span data-i18n="nav.sponsor">Sponsor</span>
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>,
+            )}
+          </AnimatePresence>,
           document.body
         )
         : null}
