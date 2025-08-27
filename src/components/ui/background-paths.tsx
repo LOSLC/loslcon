@@ -19,7 +19,7 @@ export const BackgroundPaths = ({
       className={
         cn
           ? cn(
-              "relative h-[24rem] md:h-screen w-full bg-white dark:bg-black",
+              "relative h-screen w-full bg-white dark:bg-black",
               className
             )
           : `relative h-screen w-full bg-white dark:bg-black ${className ?? ""}`

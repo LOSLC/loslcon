@@ -192,5 +192,6 @@
 
 body {
   letter-spacing: var(--tracking-normal);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 

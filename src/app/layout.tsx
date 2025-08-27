@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { DEFAULT_LOCALE } from "@/i18n/settings";
 import { AutoTranslate } from "@/components/i18n/auto-translate";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -46,7 +49,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0b1020" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
+  className={`${poppins.variable} ${geistMono.variable} antialiased bg-background`}
       >
         <AutoTranslate />
         <Header />
