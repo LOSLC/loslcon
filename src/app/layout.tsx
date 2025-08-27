@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description: "Conférence dédiée à la cybersécurité, l’open source et Linux",
     images: [
       {
-        url: "/event-cover.png",
+        url: "/event-cover.jpg",
         width: 1200,
         height: 630,
         alt: "LOSL-CON 2025",
