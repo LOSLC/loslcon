@@ -22,13 +22,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LOSL-CON 2025",
   description: "Conférence dédiée à la cybersécurité, l’open source et Linux",
-  icons: [{ rel: "icon", url: "logo.png" }],
+  icons: [{ rel: "icon", url: "/logo.png" }],
   openGraph: {
     title: "LOSL-CON 2025",
     description: "Conférence dédiée à la cybersécurité, l’open source et Linux",
     images: [
       {
-        url: "event-cover.jpg",
+        url: "https://loslcon.loslc.tech/event-cover.jpg",
         width: 1200,
         height: 630,
         alt: "LOSL-CON 2025",
