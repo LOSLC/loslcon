@@ -5,6 +5,8 @@ import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { DEFAULT_LOCALE } from "@/i18n/settings";
 import { AutoTranslate } from "@/components/i18n/auto-translate";
+import NextTopLoader from "nextjs-toploader";
+import { getCurrentUser } from "@/core/dal/session";
 
 const poppins = Poppins({
   variable: "--font-sans",
@@ -37,11 +39,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrentUser();
   return (
     <html lang={DEFAULT_LOCALE} className="dark">
       <head>
@@ -51,8 +54,16 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${geistMono.variable} antialiased bg-background`}
       >
-        <AutoTranslate />
-        <Header />
+        <NextTopLoader
+          color="#22c55e"
+          showSpinner={false}
+          height={3}
+          crawlSpeed={200}
+          crawl
+          easing="ease"
+        />
+  <AutoTranslate />
+  <Header isLoggedIn={!!user} />
         {children}
         <Footer />
       </body>

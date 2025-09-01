@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { LINKS } from "@/lib/links";
-import { BackgroundPaths } from "@/components/ui/background-paths";
+import { GradientCursorFollow } from "@/components/ui/gradient-cursor-follow";
 import { useEffect, useMemo, useState } from "react";
 
 export function Hero() {
@@ -23,11 +22,11 @@ export function Hero() {
   const seconds = Math.floor((remaining / 1000) % 60);
 
   return (
-    <BackgroundPaths className="relative isolate overflow-hidden">
+    <GradientCursorFollow className="relative isolate overflow-hidden">
       <div className="container mx-auto max-w-6xl px-4 py-20 sm:py-28 md:py-36 text-center text-background">
-        <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium ring-1 ring-white/40 backdrop-blur">
+        <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium ring-1 ring-emerald-400/40 backdrop-blur">
           <span data-i18n="hero.highlight" className="text-foreground">
-            Les inscriptions commencent bientôt
+            Les inscriptions sont ouvertes
           </span>
         </div>
         <h1 className="mt-6 text-5xl font-extrabold tracking-tight sm:text-7xl drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
@@ -39,7 +38,7 @@ export function Hero() {
           </span>
         </h1>
         <div className="mt-5 max-w-3xl mx-auto">
-          <p className="text-lg sm:text-xl text-white/95  bg-black/20 border border-foreground/30 lg:border-none rounded-lg px-4 py-3 inline-block">
+          <p className="text-lg sm:text-xl text-white/95  bg-black/20 lg:border-none rounded-lg px-4 py-3 inline-block">
             <span
               data-i18n="hero.subtitle"
               className="font-inter font-semibold bg-gradient-to-r from-sky-300 via-white to-sky-300 bg-clip-text text-transparent"
@@ -75,17 +74,22 @@ export function Hero() {
                   </div>
                   <div className="mt-1 text-[10px] sm:text-xs uppercase tracking-wider text-white/80 text-center overflow-hidden text-ellipsis whitespace-nowrap">
                     <span className="sm:hidden">{u.short}</span>
-                    <span className="hidden sm:inline" data-i18n={`hero.countdown.${u.k}`}>{u.short}</span>
+                    <span
+                      className="hidden sm:inline"
+                      data-i18n={`hero.countdown.${u.k}`}
+                    >
+                      {u.short}
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <Button asChild size="lg" className="shadow-lg">
-            <a href={LINKS.community} target="_blank" rel="noreferrer">
-              <span data-i18n="hero.cta">Rejoindre la communauté</span>
+            <a href="/register">
+              <span data-i18n="join.ctaCommunity">S&apos;inscrire maintenant</span>
             </a>
           </Button>
           <Button
@@ -110,15 +114,13 @@ export function Hero() {
             </a>
           </Button>
           <a
-            href={LINKS.home}
-            target="_blank"
-            rel="noreferrer"
+            href="/tickets"
             className="inline-flex h-11 items-center justify-center rounded-lg border border-white/30 bg-white/5 px-5 text-sm font-medium text-white/90 backdrop-blur transition hover:bg-white/10"
           >
-            <span data-i18n="nav.home">Accueil LOSL-C</span>
+            <span data-i18n="join.ctaWaitlist">Voir les tickets</span>
           </a>
         </div>
       </div>
-    </BackgroundPaths>
+    </GradientCursorFollow>
   );
 }

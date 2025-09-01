@@ -2,12 +2,14 @@
   "nav": {
     "home": "Accueil LOSL-C",
   "joinCommunity": "Rejoindre la communauté",
-  "sponsor": "Devenir sponsor"
+  "sponsor": "Devenir sponsor",
+  "tickets": "Tickets",
+  "register": "Inscription"
   },
   "hero": {
     "title": "LOSL-CON 2025",
     "subtitle": "Conférence dédiée à la cybersécurité, l’open source et Linux",
-    "highlight": "Les inscriptions commencent bientôt",
+  "highlight": "Les inscriptions sont ouvertes",
     "cta": "Rejoindre la communauté",
     "date": "22 novembre 2025",
     "place": "Institut Français du Togo",
@@ -46,11 +48,20 @@
     }
   },
   "join": {
-    "heading": "Restez informé",
-    "text": "Rejoignez la communauté pour recevoir les dernières nouvelles, annonces d’ouverture des inscriptions et opportunités de participation.",
-    "ctaCommunity": "Rejoindre la communauté",
-    "ctaWaitlist": "Rejoindre la liste d’attente",
-    "scan": "Scannez le QR pour la liste d’attente"
+  "heading": "Inscriptions ouvertes",
+  "text": "Choisissez votre ticket et inscrivez-vous dès maintenant pour garantir votre place.",
+  "ctaCommunity": "S’inscrire maintenant",
+  "ctaWaitlist": "Voir les tickets",
+  "scan": "Scannez le QR pour vous inscrire"
+  },
+  "tickets": {
+    "title": "Choisissez votre ticket",
+    "subtitle": "Sélectionnez le ticket parfait pour votre expérience LOSL-CON 2025. Tous les tickets incluent l'accès aux conférences, ateliers et opportunités de networking.",
+    "cta": {
+      "register": "S'inscrire maintenant",
+      "sponsor": "Devenir sponsor"
+    },
+    "help": "Des questions sur les tickets ? Contactez-nous pour plus d'informations."
   },
   "footer": {
     "rights": "© {{year}} LOSL-C. Tous droits réservés.",
@@ -63,6 +74,15 @@
   "lang": {
     "fr": "FR",
     "en": "EN"
+  },
+  "tickets": {
+    "title": "Choisissez votre ticket",
+    "subtitle": "Sélectionnez le ticket parfait pour votre expérience LOSL-CON 2025. Tous les tickets incluent l'accès aux conférences, ateliers et opportunités de networking.",
+    "help": "Des questions sur les tickets ? Contactez-nous pour plus d'informations.",
+    "cta": {
+      "register": "S'inscrire maintenant",
+      "sponsor": "Devenir sponsor"
+    }
   },
   "sponsor": {
     "title": "Devenez sponsor – LOSL-CON 2025",

@@ -12,9 +12,9 @@ export function Expect() {
   return (
     <section className="container mx-auto max-w-6xl px-4 py-20">
       <h2 className="text-3xl sm:text-4xl font-bold text-center" data-i18n="expect.heading">Ce qui vous attend</h2>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+    <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {items.map((it) => (
-          <Card key={it.key} className="bg-card/50">
+      <Card key={it.key} className="bg-card/50 transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
             <CardContent className="flex items-start gap-3 p-5">
               <CheckCircle2 className="mt-1 h-5 w-5 text-primary" />
               <span data-i18n={it.i18n}>Item</span>
