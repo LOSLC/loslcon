@@ -73,13 +73,13 @@ export default async function EventRegistrationPage({
         <header className="max-w-3xl">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs text-muted-foreground">
             <span className="size-2 rounded-full bg-primary/70" />
-            Limited seats available
+            <span data-i18n="register.badge">Limited seats available</span>
           </div>
           <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-            Register for LOSL-CON 2025
+            <span data-i18n="register.title" className="text-wrap">Register for LOSL-CON 2025</span>
           </h1>
           <p className="mt-2 text-muted-foreground">
-            Secure your spot at the premier open-source conference in Lomé. Fill out your details and choose a ticket.
+            <span data-i18n="register.subtitle">Secure your spot at the premier open-source conference in Lomé. Fill out your details and choose a ticket.</span>
           </p>
         </header>
 
@@ -104,40 +104,56 @@ export default async function EventRegistrationPage({
 
         <form action={action} className="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Details card */}
-          <Card className="md:col-span-1 order-2 md:order-1">
+          <Card className="md:col-span-1">
             <CardHeader>
-              <CardTitle>Your details</CardTitle>
-              <CardDescription>We’ll use this info to generate your ticket.</CardDescription>
+              <CardTitle>
+                <span data-i18n="register.form.details.title">Your details</span>
+              </CardTitle>
+              <CardDescription>
+                <span data-i18n="register.form.details.desc">We’ll use this info to generate your ticket.</span>
+              </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className="grid gap-1.5">
-                <Label htmlFor="firstname">First name</Label>
+                <Label htmlFor="firstname">
+                  <span data-i18n="register.form.firstName">First name</span>
+                </Label>
                 <Input id="firstname" name="firstname" autoComplete="given-name" required />
               </div>
               <div className="grid gap-1.5">
-                <Label htmlFor="lastname">Last name</Label>
+                <Label htmlFor="lastname">
+                  <span data-i18n="register.form.lastName">Last name</span>
+                </Label>
                 <Input id="lastname" name="lastname" autoComplete="family-name" required />
               </div>
               <div className="grid gap-1.5">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">
+                  <span data-i18n="register.form.email">Email</span>
+                </Label>
                 <Input id="email" name="email" type="email" autoComplete="email" required />
               </div>
               <div className="grid gap-1.5">
-                <Label htmlFor="phone_number">Phone number</Label>
+                <Label htmlFor="phone_number">
+                  <span data-i18n="register.form.phone">Phone number</span>
+                </Label>
                 <PhoneField id="phone_number" required />
               </div>
             </CardContent>
           </Card>
 
           {/* Tickets card */}
-          <Card className="md:col-span-1 order-1 md:order-2">
+          <Card className="md:col-span-1">
             <CardHeader>
-              <CardTitle>Choose your ticket</CardTitle>
-              <CardDescription>Select one option below.</CardDescription>
+              <CardTitle>
+                <span data-i18n="register.form.tickets.title">Choose your ticket</span>
+              </CardTitle>
+              <CardDescription>
+                <span data-i18n="register.form.tickets.desc">Select one option below.</span>
+              </CardDescription>
             </CardHeader>
             <CardContent>
               {tickets.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No tickets available at the moment. Please check back later.</p>
+                <p className="text-sm text-muted-foreground" data-i18n="register.form.tickets.empty">No tickets available at the moment. Please check back later.</p>
               ) : (
                 <div className="grid gap-4 sm:grid-cols-2">
                   {tickets.map((t) => {
@@ -196,19 +212,13 @@ export default async function EventRegistrationPage({
           </Card>
 
           {/* Submit row */}
-          <div className="md:col-span-2 mt-2">
-            <div className="sticky bottom-3 z-20 md:static">
-              <div className="rounded-xl border bg-background/80 px-3 py-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60 md:border-0 md:bg-transparent md:p-0 md:shadow-none">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                  <p className="text-xs text-muted-foreground sm:mr-auto">
-                    By registering, you agree to our event guidelines.
-                  </p>
-                  <Button type="submit" className="w-full sm:w-auto">
-                    Register
-                  </Button>
-                </div>
-              </div>
-            </div>
+          <div className="md:col-span-2 mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <p className="text-xs text-muted-foreground sm:mr-auto" data-i18n="register.form.legal">
+              By registering, you agree to our event guidelines.
+            </p>
+            <Button type="submit" className="w-full sm:w-auto">
+              <span data-i18n="register.form.submit">Register</span>
+            </Button>
           </div>
         </form>
       </section>

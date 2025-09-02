@@ -1,8 +1,20 @@
 "use client";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { ChevronsUpDownIcon, CheckIcon, GlobeIcon } from "lucide-react";
 import { COUNTRY_LIST } from "./country-list";
 import phone from "phone";
+import { ensureI18n } from "@/i18n/config";
 
 type Props = {
   id?: string;
@@ -33,6 +45,14 @@ export function PhoneField({
   const [iso2, setIso2] = useState<string>("");
   const [dial, setDial] = useState<string>("");
   const [national, setNational] = useState<string>(defaultValue);
+  const [open, setOpen] = useState(false);
+
+  const countries = useMemo(() => COUNTRY_LIST, []);
+  const selectedCountry = useMemo(
+    () => countries.find((c) => c.iso2 === iso2),
+    [countries, iso2],
+  );
+  const i18n = ensureI18n();
 
   // Best-effort: initialize ISO2 from defaultValue if it contains a valid phone
   useEffect(() => {
@@ -70,23 +90,63 @@ export function PhoneField({
   }, [iso2, national]);
 
   return (
-    <div className={className + " grid grid-cols-[8rem,1fr] gap-2 md:grid-cols-[12rem,1fr]"}>
-      <select
-        aria-label="Country"
-        className="rounded-md border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        value={iso2}
-        onChange={(e) => setIso2(e.target.value)}
-        required={required}
-      >
-        <option value="" disabled>
-          Select country
-        </option>
-        {COUNTRY_LIST.map((c) => (
-          <option key={c.iso2} value={c.iso2}>
-            {c.name} ({c.iso2})
-          </option>
-        ))}
-      </select>
+    <div className={className + " grid grid-cols-[1fr] gap-2 sm:grid-cols-[14rem,1fr]"}>
+      {/* Country combobox */}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            aria-label={i18n.t("country.select")}
+            className="h-9 justify-between w-full"
+          >
+            <span className="inline-flex items-center gap-2 truncate">
+              {selectedCountry ? (
+                <>
+                  <GlobeIcon className="size-4 opacity-60" />
+                  <span className="truncate">
+                    {selectedCountry.name} ({selectedCountry.iso2})
+                  </span>
+                </>
+              ) : (
+                <span className="text-muted-foreground" data-i18n="country.select">Select country</span>
+              )}
+            </span>
+            <ChevronsUpDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+          <Command>
+            <CommandInput placeholder={i18n.t("country.searchPlaceholder")} />
+            <CommandList>
+              <CommandEmpty>
+                <span data-i18n="country.noResults">No results found.</span>
+              </CommandEmpty>
+              <CommandGroup>
+                {countries.map((c) => (
+                  <CommandItem
+                    key={c.iso2}
+                    value={`${c.iso2} ${c.name}`}
+                    onSelect={() => {
+                      setIso2(c.iso2);
+                      setOpen(false);
+                    }}
+                  >
+                    <CheckIcon
+                      className={
+                        "mr-2 size-4 " + (iso2 === c.iso2 ? "opacity-100" : "opacity-0")
+                      }
+                    />
+                    <span className="truncate">{c.name}</span>
+                    <span className="ml-2 text-muted-foreground">({c.iso2})</span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
       <Input
         id={inputId}
         inputMode="tel"

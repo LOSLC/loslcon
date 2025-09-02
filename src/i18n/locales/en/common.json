@@ -131,5 +131,32 @@
     "contact": {
       "heading": "For any sponsorship request or proposal, contact us at:"
     }
+  },
+  "register": {
+    "badge": "Limited seats available",
+    "title": "Register for LOSL-CON 2025",
+    "subtitle": "Secure your spot at the premier open-source conference in Lomé. Fill out your details and choose a ticket.",
+    "form": {
+      "details": {
+        "title": "Your details",
+        "desc": "We’ll use this info to generate your ticket."
+      },
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone number",
+      "tickets": {
+        "title": "Choose your ticket",
+        "desc": "Select one option below.",
+        "empty": "No tickets available at the moment. Please check back later."
+      },
+      "legal": "By registering, you agree to our event guidelines.",
+      "submit": "Register"
+    }
+  },
+  "country": {
+    "select": "Select country",
+    "searchPlaceholder": "Search country...",
+    "noResults": "No results found."
   }
 }
