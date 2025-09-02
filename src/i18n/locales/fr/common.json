@@ -75,15 +75,6 @@
     "fr": "FR",
     "en": "EN"
   },
-  "tickets": {
-    "title": "Choisissez votre ticket",
-    "subtitle": "Sélectionnez le ticket parfait pour votre expérience LOSL-CON 2025. Tous les tickets incluent l'accès aux conférences, ateliers et opportunités de networking.",
-    "help": "Des questions sur les tickets ? Contactez-nous pour plus d'informations.",
-    "cta": {
-      "register": "S'inscrire maintenant",
-      "sponsor": "Devenir sponsor"
-    }
-  },
   "sponsor": {
     "title": "Devenez sponsor – LOSL-CON 2025",
   "subtitle": "Accédez à une audience engagée. Gagnez en visibilité. Recrutez vos futurs talents.",
@@ -140,5 +131,32 @@
     "contact": {
       "heading": "Pour toute demande ou proposition de sponsoring, contactez-nous à :"
     }
+  },
+  "register": {
+    "badge": "Places limitées",
+    "title": "Inscription à LOSL-CON 2025",
+    "subtitle": "Réservez votre place à la conférence open source de référence à Lomé. Renseignez vos informations et choisissez un ticket.",
+    "form": {
+      "details": {
+        "title": "Vos informations",
+        "desc": "Nous utiliserons ces informations pour générer votre ticket."
+      },
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "phone": "Numéro de téléphone",
+      "tickets": {
+        "title": "Choisissez votre ticket",
+        "desc": "Sélectionnez une option ci-dessous.",
+        "empty": "Aucun ticket disponible pour le moment. Revenez plus tard."
+      },
+      "legal": "En vous inscrivant, vous acceptez nos règles de l’événement.",
+      "submit": "S’inscrire"
+    }
+  },
+  "country": {
+    "select": "Sélectionner un pays",
+    "searchPlaceholder": "Rechercher un pays...",
+    "noResults": "Aucun résultat."
   }
 }
