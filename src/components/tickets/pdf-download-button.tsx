@@ -58,9 +58,9 @@ export function PdfDownloadButton({ targetSelector, filename = "ticket.pdf", cla
       }
 
       let dataUrl: string;
-      try {
-        dataUrl = await capture(false);
-  } catch (_e: unknown) {
+  try {
+    dataUrl = await capture(false);
+  } catch {
         // Fallback path: avoid font embedding which can fail on some browsers/environments
         dataUrl = await capture(true);
       }

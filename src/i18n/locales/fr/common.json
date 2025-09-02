@@ -4,7 +4,8 @@
   "joinCommunity": "Rejoindre la communauté",
   "sponsor": "Devenir sponsor",
   "tickets": "Tickets",
-  "register": "Inscription"
+  "register": "Inscription",
+  "dashboard": "Tableau de bord"
   },
   "hero": {
     "title": "LOSL-CON 2025",
@@ -21,38 +22,92 @@
     }
   },
   "about": {
-    "heading": "À propos de LOSL-CON",
-    "body": "LOSL-CON est un événement communautaire centré sur la liberté numérique, la sécurité et l’adoption des technologies open source & Linux. Nous rassemblons passionnés, professionnels et curieux pour apprendre, partager et bâtir un futur numérique plus libre et plus sûr.",
+    "badge": "Événement Tech 2025",
+  "heading": "À propos de LOSL-CON 2025",
+    "body": "LOSL-CON 2025 rassemble la communauté tech togolaise autour de la cybersécurité, l'open source et Linux. Une journée d'apprentissage, de networking et d'innovation technologique.",
+    "stats": {
+  "speakers": "5",
+      "speakers_label": "Speakers experts",
+  "attendees": "150+",
+      "attendees_label": "Participants",
+  "workshops": "3",
+      "workshops_label": "Ateliers pratiques",
+      "hours": "8h",
+      "hours_label": "De contenu"
+    },
     "values": {
-      "freedom": {
-        "title": "Liberté numérique",
-        "desc": "Promouvoir l’autonomie technologique, la confidentialité et le contrôle de ses données."
-      },
       "security": {
-        "title": "Sécurité",
-        "desc": "Renforcer les pratiques de cybersécurité et la résilience des systèmes."
+        "title": "Cybersécurité & Protection",
+        "desc": "Découvrez les dernières tendances en sécurité informatique et apprenez à protéger vos systèmes contre les menaces modernes."
       },
-      "open": {
-        "title": "Open source & Linux",
-        "desc": "Encourager l’usage, la contribution et le partage autour de l’open source et Linux."
+      "opensource": {
+        "title": "Open Source & Collaboration",
+        "desc": "Explorez l'écosystème open source, contribuez aux projets communautaires et découvrez les outils qui façonnent l'avenir du développement."
+      },
+      "linux": {
+        "title": "Linux & Infrastructure",
+        "desc": "Maîtrisez les systèmes Linux, l'administration serveur et les technologies cloud qui alimentent l'infrastructure moderne."
       }
+    },
+    "event_info": {
+      "title": "22 Novembre 2025",
+      "location": "Institut Français du Togo, Lomé",
+      "networking": "Networking",
+      "certificates": "Certificats"
     }
   },
   "expect": {
-    "heading": "Ce qui vous attend",
+    "badge": "Programme 2025",
+    "heading": "Une expérience tech complète",
+    "subtitle": "Plongez dans un programme riche conçu pour tous les niveaux, des débutants aux experts confirmés.",
     "items": {
       "talks": "Conférences inspirantes",
+      "talks_desc": "Des talks captivants par des experts reconnus sur les dernières innovations en cybersécurité, open source et Linux.",
+      "talks_included": "Inclus dans votre ticket",
       "workshops": "Ateliers pratiques",
-      "networking": "Rencontres & networking",
-      "discovery": "Découverte de projets open source"
+      "workshops_desc": "Des sessions hands-on pour apprendre de nouvelles compétences et maîtriser les outils essentiels.",
+      "workshops_included": "Inclus dans votre ticket",
+      "networking": "Networking & Échanges",
+      "networking_desc": "Rencontrez la communauté tech togolaise, créez des connexions et découvrez de nouvelles opportunités.",
+      "networking_included": "Inclus dans votre ticket",
+      "innovation": "Innovation & Découvertes",
+      "innovation_desc": "Explorez les technologies émergentes et les projets innovants qui façonnent l'avenir du tech au Togo.",
+      "innovation_included": "Inclus dans votre ticket"
+    },
+    "schedule": {
+      "morning": "Matin",
+      "morning_desc": "Conférences & Talks",
+      "afternoon": "Après-midi",
+      "afternoon_desc": "Ateliers & Networking",
+      "evening": "Soirée",
+      "evening_desc": "Networking & Clôture"
     }
   },
   "join": {
-  "heading": "Inscriptions ouvertes",
-  "text": "Choisissez votre ticket et inscrivez-vous dès maintenant pour garantir votre place.",
-  "ctaCommunity": "S’inscrire maintenant",
-  "ctaWaitlist": "Voir les tickets",
-  "scan": "Scannez le QR pour vous inscrire"
+  "urgency": "Places limitées",
+  "heading": "Rejoignez la LOSLCON 2025",
+  "subtitle": "La conférence Linux & Open Source à Lomé vous attend. Réservez votre place dès maintenant !",
+  "date": "22 Novembre 2025",
+  "dateDesc": "Journée complète",
+  "location": "Lomé, Togo",
+  "venue": "Institut Français du Togo",
+  "capacity": "150+ Participants",
+  "networking": "Networking premium",
+  "benefits": "Goodies inclus",
+  "swag": "Certificats & plus",
+  "ctaPrimary": "S'inscrire maintenant",
+  "ctaSecondary": "Voir les tickets",
+  "earlyBird": "Tarif Early Bird jusqu'au 28 février - Économisez 30% !",
+  "standardRate": "Tarif standard en cours — réservez maintenant.",
+  "qrTitle": "Inscription rapide",
+  "scanTitle": "Scannez pour vous inscrire",
+  "scanDesc": "Accès direct au formulaire d'inscription",
+  "countdown": "Plus que quelques semaines avant l'événement !",
+  "secure": "Paiement sécurisé",
+  "refund": "Remboursement 48h",
+  "support": "Support 24/7",
+  "ctaCommunity": "S'inscrire maintenant",
+  "ctaWaitlist": "Voir les tickets"
   },
   "tickets": {
     "title": "Choisissez votre ticket",

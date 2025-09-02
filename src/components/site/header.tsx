@@ -9,6 +9,7 @@ import { ensureI18n } from "@/i18n/config";
 import { Menu, X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { Navbar } from "./navbar";
 
 type HeaderProps = {
   isLoggedIn?: boolean;
@@ -54,55 +55,8 @@ export function Header({ isLoggedIn = false }: HeaderProps) {
           </Link>
         </div>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex flex-1 items-center gap-6 lg:gap-8 justify-end overflow-x-auto whitespace-nowrap">
-          <Link
-            href="/tickets"
-            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-primary"
-          >
-            <span data-i18n="nav.tickets">Tickets</span>
-          </Link>
-          <Link
-            href="/devenir-sponsor"
-            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-primary"
-          >
-            <span data-i18n="nav.sponsor">Devenir sponsor</span>
-          </Link>
-          <Link
-            href={LINKS.home}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-foreground"
-          >
-            <span data-i18n="nav.home">LOSL-C</span>
-          </Link>
-          <Link
-            href={LINKS.community}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-foreground"
-          >
-            <span data-i18n="nav.joinCommunity">Rejoindre la communauté</span>
-          </Link>
-
-          <div className="h-6 w-px bg-border mx-3" />
-          <LanguageSwitcher />
-
-          {/* Auth-aware CTAs */}
-          {isLoggedIn ? (
-            <Button asChild size="sm" className="ml-3">
-              <a href="/admin/dashboard">
-                <span>Dashboard</span>
-              </a>
-            </Button>
-          ) : (
-            <Button asChild size="sm" className="ml-3">
-              <a href="/register">
-                <span data-i18n="nav.register">Register</span>
-              </a>
-            </Button>
-          )}
-        </nav>
+  {/* Desktop nav */}
+  <Navbar isLoggedIn={isLoggedIn} />
 
         {/* Mobile nav trigger */}
         <MobileNav isLoggedIn={isLoggedIn} />
@@ -132,18 +86,14 @@ function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [mounted]);
 
-  const mobileLinks = [
-    { href: "/tickets", label: "Tickets" },
+  const mobileLinks: Array<{ href: string; key: string; fallback: string; target?: string }> = [
+    { href: "/tickets", key: "nav.tickets", fallback: "Tickets" },
     ...(isLoggedIn
-      ? [{ href: "/admin/dashboard", label: "Dashboard" } as const]
-      : [{ href: "/register", label: "Register" } as const]),
-    { href: "/devenir-sponsor", label: "Devenir sponsor" },
-    { href: LINKS.home, label: "Accueil LOSL-C", target: "_blank" },
-    {
-      href: LINKS.community,
-      label: "Rejoindre la communauté",
-      target: "_blank",
-    },
+      ? [{ href: "/admin/dashboard", key: "nav.dashboard", fallback: "Dashboard" }]
+      : [{ href: "/register", key: "nav.register", fallback: "Register" }]),
+    { href: "/devenir-sponsor", key: "nav.sponsor", fallback: "Devenir sponsor" },
+    { href: LINKS.home, key: "nav.home", fallback: "LOSL-C Home", target: "_blank" },
+    { href: LINKS.community, key: "nav.joinCommunity", fallback: "Rejoindre la communauté", target: "_blank" },
   ];
 
   return (
@@ -164,7 +114,7 @@ function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
             {open && (
               <div className="fixed inset-0 z-[100]">
                 <motion.div
-                  className="absolute inset-0 bg-black/70"
+                  className="absolute inset-0 bg-background/95 backdrop-blur-lg"
                   aria-hidden
                   onClick={() => setOpen(false)}
                   initial={{ opacity: 0 }}
@@ -173,75 +123,36 @@ function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
                   transition={{ duration: 0.2 }}
                 />
                 <motion.div
-                  className="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-background border-l border-white/10 shadow-2xl p-4 flex flex-col gap-3"
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-6 p-6"
                   role="dialog"
                   aria-modal="true"
                   aria-label="Mobile Menu"
-                  initial={{ x: "100%" }}
-                  animate={{ x: 0 }}
-                  exit={{ x: "100%" }}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
                   transition={{
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 28,
-                    mass: 0.9,
+                    duration: 0.18
                   }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Image
-                        src="/logo.png"
-                        alt="LOSL-C"
-                        width={28}
-                        height={28}
-                        className="rounded"
-                      />
-                      <span className="text-sm font-medium">LOSL-CON</span>
-                    </div>
-                    <Button
-                      aria-label="Close menu"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setOpen(false)}
-                    >
-                      <X className="h-5 w-5" />
-                    </Button>
-                  </div>
-                  <nav className="mt-2 grid gap-2">
-                    {mobileLinks.map(({ href, label, target }) => (
+                  <nav className="grid gap-4 text-center text-lg">
+          {mobileLinks.map(({ href, key, fallback, target }) => (
                       <Link
-                        key={label}
+            key={key}
                         href={href}
                         target={target}
                         rel={target ? "noreferrer" : undefined}
                         onClick={() => setOpen(false)}
-                        className="rounded-md px-3 py-2 hover:bg-accent/20"
+                        className="rounded-md px-6 py-3 bg-card/40 ring-1 ring-border hover:bg-card/60"
                       >
-                        <span>{label}</span>
+            <span data-i18n={key}>{fallback}</span>
                       </Link>
                     ))}
                   </nav>
-                  <div className="mt-3 h-px bg-border" />
-                  <div className="flex items-center justify-between">
+                  <div className="mt-4 flex items-center gap-4">
                     <LanguageSwitcher />
-                    <div className="flex gap-2">
-                      <Button asChild size="sm">
-                        <a
-                          href={LINKS.community}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Rejoindre
-                        </a>
-                      </Button>
-                      <Button
-                        asChild
-                        size="sm"
-                        className="bg-accent text-accent-foreground hover:bg-accent/90"
-                      >
-                        <a href="/devenir-sponsor">Sponsor</a>
-                      </Button>
-                    </div>
+                    <Button aria-label="Close menu" variant="outline" size="icon" onClick={() => setOpen(false)}>
+                      <X className="h-5 w-5" />
+                    </Button>
                   </div>
                 </motion.div>
               </div>

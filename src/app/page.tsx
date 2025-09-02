@@ -6,7 +6,7 @@ import { Join } from "@/components/sections/join";
 export default function Home() {
   return (
     <main>
-      <Hero />
+  <Hero />
       <About />
       <Expect />
       <Join />
