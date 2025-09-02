@@ -40,6 +40,10 @@ export async function register(details: RegistrationDetails) {
     return { error: "You have already registered for the event." };
   }
 
+  await db
+    .delete(registrationsTable)
+    .where(eq(registrationsTable.email, details.email));
+
   const [registrationsConfig] = await db
     .select()
     .from(registrationsConfigTable)
