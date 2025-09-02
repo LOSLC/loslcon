@@ -13,6 +13,7 @@ import { FedaPay, Transaction } from "fedapay";
 import { getEnv } from "@/lib/env";
 import { appConfig } from "@/core/utils/config";
 import { sendEmail } from "@/core/services/mailing/mailer";
+import BroadcastMessage from "@/core/services/mailing/templates/broadcast/message";
 import TicketRegistrationSuccessful from "@/core/services/mailing/templates/ticket-registration-successful";
 import { z } from "zod";
 import { getCurrentUser } from "@/core/dal/session";
@@ -319,6 +320,47 @@ export async function resendTicketEmail(registrationId: string) {
   return { message: "Ticket email sent." } as const;
 }
 
+// Admin: broadcast message to registrations
+const broadcastSchema = z.object({
+  scope: z.enum(["all", "confirmed", "unconfirmed"]).default("all"),
+  subject: z.string().min(3),
+  message: z.string().min(1),
+});
+
+export async function broadcastMessage(form: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.accessLevel > 0) {
+    return { error: "Unauthorized" } as const;
+  }
+  const parsed = broadcastSchema.safeParse({
+    scope: String(form.get("scope") || "all"),
+    subject: String(form.get("subject") || "").trim(),
+    message: String(form.get("message") || "").trim(),
+  });
+  if (!parsed.success) {
+    return { validationErrors: parsed.error.flatten().fieldErrors } as const;
+  }
+  const scope = parsed.data.scope;
+  // get registrations
+  const regs = await db.select().from(registrationsTable);
+  const targets = regs.filter((r) =>
+    scope === "all" ? true : scope === "confirmed" ? r.confirmed : !r.confirmed,
+  );
+
+  // fire-and-forget emails (queue-like)
+  await Promise.all(
+    targets.map((r) =>
+      sendEmail({
+        to: r.email,
+        subject: parsed.data.subject,
+        component: BroadcastMessage,
+        props: { name: `${r.firstname} ${r.lastname}`.trim(), message: parsed.data.message },
+      }),
+    ),
+  );
+  return { message: `Broadcast queued to ${targets.length} recipients.` } as const;
+}
+
 // Form-Data facing server actions (migrated from events.ts)
 const registrationSchema = z.object({
   firstname: z.string().min(2),
@@ -522,4 +564,51 @@ export async function markRegistrationAttended(form: FormData) {
     .set({ attended: true })
     .where(eq(registrationsTable.id, id));
   return { message: "Marked as attended." } as const;
+}
+
+// Admin: update and delete registrations
+const registrationUpdateSchema = z.object({
+  id: z.string().uuid(),
+  ticket_id: z.string().uuid(),
+  confirmed: z.coerce.boolean().optional().default(false),
+});
+
+export async function updateRegistration(form: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.accessLevel > 0) {
+    return { error: "Unauthorized" } as const;
+  }
+  const parsed = registrationUpdateSchema.safeParse({
+    id: form.get("id"),
+    ticket_id: form.get("ticket_id"),
+    // checkbox is present when checked
+    confirmed: form.get("confirmed") != null,
+  });
+  if (!parsed.success) {
+    return { validationErrors: parsed.error.flatten().fieldErrors } as const;
+  }
+  // Ensure ticket exists
+  const [t] = await db
+    .select()
+    .from(ticketsTable)
+    .where(eq(ticketsTable.id, parsed.data.ticket_id))
+    .limit(1);
+  if (!t) return { error: "Invalid ticket" } as const;
+
+  await db
+    .update(registrationsTable)
+    .set({ ticket_id: parsed.data.ticket_id, confirmed: parsed.data.confirmed })
+    .where(eq(registrationsTable.id, parsed.data.id));
+  return { message: "Registration updated." } as const;
+}
+
+export async function deleteRegistration(form: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.accessLevel > 0) {
+    return { error: "Unauthorized" } as const;
+  }
+  const id = String(form.get("id") || "").trim();
+  if (!id) return { error: "Missing registration id" } as const;
+  await db.delete(registrationsTable).where(eq(registrationsTable.id, id));
+  return { message: "Registration deleted." } as const;
 }

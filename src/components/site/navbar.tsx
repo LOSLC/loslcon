@@ -15,24 +15,24 @@ export function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
       <NavigationMenu viewport={false}>
         <NavigationMenuList className="gap-1">
           <NavigationMenuItem>
-            <Link href="/tickets" legacyBehavior passHref>
-              <NavigationMenuLink data-i18n="nav.tickets">Tickets</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild data-i18n="nav.tickets">
+              <Link href="/tickets">Tickets</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/devenir-sponsor" legacyBehavior passHref>
-              <NavigationMenuLink data-i18n="nav.sponsor">Devenir sponsor</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild data-i18n="nav.sponsor">
+              <Link href="/devenir-sponsor">Devenir sponsor</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href={LINKS.home} target="_blank" rel="noreferrer" legacyBehavior passHref>
-              <NavigationMenuLink data-i18n="nav.home">LOSL-C</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild data-i18n="nav.home">
+              <Link href={LINKS.home} target="_blank" rel="noreferrer">LOSL-C</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href={LINKS.community} target="_blank" rel="noreferrer" legacyBehavior passHref>
-              <NavigationMenuLink data-i18n="nav.joinCommunity">Rejoindre la communauté</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild data-i18n="nav.joinCommunity">
+              <Link href={LINKS.community} target="_blank" rel="noreferrer">Rejoindre la communauté</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
