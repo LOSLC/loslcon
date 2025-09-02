@@ -42,7 +42,7 @@ const items = [
 
 export function Expect() {
   return (
-    <section className="relative py-24 bg-gradient-to-b from-background to-muted/30">
+  <section className="relative py-24 bg-gradient-to-b from-background to-muted/30 overflow-hidden">
       {/* Background decoration */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute top-20 left-20 h-72 w-72 rounded-full bg-primary/5 blur-3xl" />
