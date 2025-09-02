@@ -1,0 +1,1 @@
+ALTER TABLE "registrations" ADD COLUMN "attended" boolean DEFAULT false NOT NULL;

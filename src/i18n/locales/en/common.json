@@ -2,12 +2,14 @@
   "nav": {
     "home": "LOSL-C Home",
   "joinCommunity": "Join the community",
-  "sponsor": "Become a sponsor"
+  "sponsor": "Become a sponsor",
+  "tickets": "Tickets",
+  "register": "Register"
   },
   "hero": {
     "title": "LOSL-CON 2025",
     "subtitle": "Conference dedicated to cybersecurity, open source and Linux",
-    "highlight": "Registrations opening soon",
+  "highlight": "Registrations are open",
     "cta": "Join the community",
     "date": "22 November 2025",
     "place": "Institut Français du Togo",
@@ -46,11 +48,20 @@
     }
   },
   "join": {
-    "heading": "Stay informed",
-    "text": "Join the community to get the latest news, registration opening announcements and participation opportunities.",
-    "ctaCommunity": "Join the community",
-    "ctaWaitlist": "Join the waitlist",
-    "scan": "Scan the QR for the waitlist"
+  "heading": "Registrations open",
+  "text": "Pick your ticket and register now to secure your spot.",
+  "ctaCommunity": "Register now",
+  "ctaWaitlist": "Browse tickets",
+  "scan": "Scan the QR to register"
+  },
+  "tickets": {
+    "title": "Choose Your Ticket",
+    "subtitle": "Select the perfect ticket for your LOSL-CON 2025 experience. All tickets include access to talks, workshops, and networking opportunities.",
+    "cta": {
+      "register": "Register Now",
+      "sponsor": "Become a Sponsor"
+    },
+    "help": "Questions about tickets? Contact us for more information."
   },
   "footer": {
     "rights": "© {{year}} LOSL-C. All rights reserved.",

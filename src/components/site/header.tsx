@@ -10,7 +10,11 @@ import { Menu, X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-export function Header() {
+type HeaderProps = {
+  isLoggedIn?: boolean;
+};
+
+export function Header({ isLoggedIn = false }: HeaderProps) {
   const [navBg, setNavBg] = useState(false);
 
   useEffect(() => {
@@ -26,54 +30,88 @@ export function Header() {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-40 w-full backdrop-blur-md ${navBg ? "supports-[backdrop-filter]:bg-background/40 bg-background/60 border-b border-white/10" : "bg-[#000000]"}`}>
+    <header
+      className={`sticky top-0 z-40 w-full backdrop-blur-md ${
+        navBg
+          ? "supports-[backdrop-filter]:bg-background/40 bg-background/60 border-b border-white/10"
+          : "bg-[#000000]"
+      }`}
+    >
       <div className="container mx-auto max-w-6xl flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.png" alt="LOSL-C" width={36} height={36} className="rounded" />
-          <span className="sr-only">LOSL-C</span>
-        </Link>
+        {/* Brand */}
+        <div
+          className="flex items-center gap-2 rounded-md px-2 py-1 select-none"
+          aria-label="Brand"
+        >
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="LOSL-CON"
+              width={36}
+              height={36}
+              className="rounded"
+            />
+          </Link>
+        </div>
+
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/devenir-sponsor" className="text-sm transition-all hover:-translate-x-2 duration-500 text-foreground/90 hover:text-primary hidden sm:inline-block">
+        <nav className="hidden md:flex flex-1 items-center gap-6 lg:gap-8 justify-end overflow-x-auto whitespace-nowrap">
+          <Link
+            href="/tickets"
+            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-primary"
+          >
+            <span data-i18n="nav.tickets">Tickets</span>
+          </Link>
+          <Link
+            href="/devenir-sponsor"
+            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-primary"
+          >
             <span data-i18n="nav.sponsor">Devenir sponsor</span>
           </Link>
-          <Link href={LINKS.home} className="text-sm text-foreground/90 hover:text-foreground" target="_blank" rel="noreferrer">
-            {/* t('nav.home') from i18n in client via data-i18n attr */}
+          <Link
+            href={LINKS.home}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-foreground"
+          >
             <span data-i18n="nav.home">LOSL-C</span>
           </Link>
-          <Link href={LINKS.community} className="text-sm text-foreground/90 hover:text-foreground" target="_blank" rel="noreferrer">
+          <Link
+            href={LINKS.community}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-md px-2 py-1 text-sm text-foreground/90 hover:text-foreground"
+          >
             <span data-i18n="nav.joinCommunity">Rejoindre la communauté</span>
           </Link>
-          <div className="h-6 w-px bg-border mx-2" />
+
+          <div className="h-6 w-px bg-border mx-3" />
           <LanguageSwitcher />
-          <Button asChild size="sm" className="ml-2">
-            <a href={LINKS.community} target="_blank" rel="noreferrer">
-              <span data-i18n="nav.joinCommunity">Rejoindre la communauté</span>
-            </a>
-          </Button>
-          <Button
-            asChild
-            size="sm"
-            variant="accent"
-            className="hidden sm:inline-flex relative overflow-hidden ring-1 ring-accent/40 hover:ring-accent/60 transition shadow-[0_0_20px_-5px_var(--color-accent)] hover:shadow-[0_0_28px_-4px_var(--color-accent)]"
-          >
-            <a href="/devenir-sponsor">
-              <span className="relative z-[1]" data-i18n="nav.sponsor">Devenir sponsor</span>
-              <span aria-hidden className="pointer-events-none absolute inset-0 opacity-70">
-                <span className="absolute -inset-8 bg-[conic-gradient(at_top_right,theme(colors.accent/60),transparent_30%)] blur-xl" />
-                <span className="absolute left-[-20%] top-[-40%] h-[180%] w-1/3 rotate-[14deg] bg-gradient-to-r from-transparent via-white/80 to-transparent blur-sm animate-[shimmer_1.8s_linear_infinite]" />
-              </span>
-            </a>
-          </Button>
+
+          {/* Auth-aware CTAs */}
+          {isLoggedIn ? (
+            <Button asChild size="sm" className="ml-3">
+              <a href="/admin/dashboard">
+                <span>Dashboard</span>
+              </a>
+            </Button>
+          ) : (
+            <Button asChild size="sm" className="ml-3">
+              <a href="/register">
+                <span data-i18n="nav.register">Register</span>
+              </a>
+            </Button>
+          )}
         </nav>
+
         {/* Mobile nav trigger */}
-        <MobileNav />
+        <MobileNav isLoggedIn={isLoggedIn} />
       </div>
     </header>
   );
 }
 
-function MobileNav() {
+function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -87,15 +125,27 @@ function MobileNav() {
     };
   }, [open, mounted]);
 
-  // Close on Escape
   useEffect(() => {
     if (!mounted) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [mounted]);
+
+  const mobileLinks = [
+    { href: "/tickets", label: "Tickets" },
+    ...(isLoggedIn
+      ? [{ href: "/admin/dashboard", label: "Dashboard" } as const]
+      : [{ href: "/register", label: "Register" } as const]),
+    { href: "/devenir-sponsor", label: "Devenir sponsor" },
+    { href: LINKS.home, label: "Accueil LOSL-C", target: "_blank" },
+    {
+      href: LINKS.community,
+      label: "Rejoindre la communauté",
+      target: "_blank",
+    },
+  ];
+
   return (
     <div className="md:hidden">
       <Button
@@ -108,8 +158,8 @@ function MobileNav() {
         <Menu className="h-5 w-5" />
       </Button>
 
-      {mounted
-        ? createPortal(
+      {mounted &&
+        createPortal(
           <AnimatePresence>
             {open && (
               <div className="fixed inset-0 z-[100]">
@@ -130,41 +180,66 @@ function MobileNav() {
                   initial={{ x: "100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
-                  transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.9 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 28,
+                    mass: 0.9,
+                  }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Image src="/logo.png" alt="LOSL-C" width={28} height={28} className="rounded" />
+                      <Image
+                        src="/logo.png"
+                        alt="LOSL-C"
+                        width={28}
+                        height={28}
+                        className="rounded"
+                      />
                       <span className="text-sm font-medium">LOSL-CON</span>
                     </div>
-                    <Button aria-label="Close menu" variant="outline" size="icon" onClick={() => setOpen(false)}>
+                    <Button
+                      aria-label="Close menu"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setOpen(false)}
+                    >
                       <X className="h-5 w-5" />
                     </Button>
                   </div>
                   <nav className="mt-2 grid gap-2">
-                    <Link href={LINKS.home} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
-                      <span data-i18n="nav.home">Accueil LOSL-C</span>
-                    </Link>
-                    <Link href={LINKS.community} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
-                      <span data-i18n="nav.joinCommunity">Rejoindre la communauté</span>
-                    </Link>
-                    <Link href="/devenir-sponsor" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 hover:bg-accent/20">
-                      <span data-i18n="nav.sponsor">Devenir sponsor</span>
-                    </Link>
+                    {mobileLinks.map(({ href, label, target }) => (
+                      <Link
+                        key={label}
+                        href={href}
+                        target={target}
+                        rel={target ? "noreferrer" : undefined}
+                        onClick={() => setOpen(false)}
+                        className="rounded-md px-3 py-2 hover:bg-accent/20"
+                      >
+                        <span>{label}</span>
+                      </Link>
+                    ))}
                   </nav>
                   <div className="mt-3 h-px bg-border" />
                   <div className="flex items-center justify-between">
                     <LanguageSwitcher />
                     <div className="flex gap-2">
                       <Button asChild size="sm">
-                        <a href={LINKS.community} target="_blank" rel="noreferrer">
-                          <span data-i18n="nav.joinCommunity">Rejoindre</span>
+                        <a
+                          href={LINKS.community}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Rejoindre
                         </a>
                       </Button>
-                      <Button asChild size="sm" variant="accent">
-                        <a href="/devenir-sponsor">
-                          <span data-i18n="nav.sponsor">Sponsor</span>
-                        </a>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-accent text-accent-foreground hover:bg-accent/90"
+                      >
+                        <a href="/devenir-sponsor">Sponsor</a>
                       </Button>
                     </div>
                   </div>
@@ -172,9 +247,8 @@ function MobileNav() {
               </div>
             )}
           </AnimatePresence>,
-          document.body
-        )
-        : null}
+          document.body,
+        )}
     </div>
   );
 }
