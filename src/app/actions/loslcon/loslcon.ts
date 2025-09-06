@@ -354,7 +354,7 @@ export async function broadcastMessage(form: FormData) {
           subject: parsed.data.subject,
           component: BroadcastMessage,
           props: {
-            name: `${r.firstname} ${r.lastname}`.trim(),
+            name: `${r.firstname}`.trim(),
             message: parsed.data.message,
           },
         });
