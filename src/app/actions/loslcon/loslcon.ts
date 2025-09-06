@@ -320,7 +320,6 @@ export async function resendTicketEmail(registrationId: string) {
   return { message: "Ticket email sent." } as const;
 }
 
-// Admin: broadcast message to registrations
 const broadcastSchema = z.object({
   scope: z.enum(["all", "confirmed", "unconfirmed"]).default("all"),
   subject: z.string().min(3),
@@ -341,24 +340,31 @@ export async function broadcastMessage(form: FormData) {
     return { validationErrors: parsed.error.flatten().fieldErrors } as const;
   }
   const scope = parsed.data.scope;
-  // get registrations
+
   const regs = await db.select().from(registrationsTable);
   const targets = regs.filter((r) =>
     scope === "all" ? true : scope === "confirmed" ? r.confirmed : !r.confirmed,
   );
 
-  // fire-and-forget emails (queue-like)
-  await Promise.all(
-    targets.map((r) =>
-      sendEmail({
-        to: r.email,
-        subject: parsed.data.subject,
-        component: BroadcastMessage,
-        props: { name: `${r.firstname} ${r.lastname}`.trim(), message: parsed.data.message },
-      }),
-    ),
-  );
-  return { message: `Broadcast queued to ${targets.length} recipients.` } as const;
+  targets.forEach((r, i) => {
+    setTimeout(
+      () => {
+        sendEmail({
+          to: r.email,
+          subject: parsed.data.subject,
+          component: BroadcastMessage,
+          props: {
+            name: `${r.firstname} ${r.lastname}`.trim(),
+            message: parsed.data.message,
+          },
+        });
+      },
+      5000 * (i + 1),
+    );
+  });
+  return {
+    message: `Broadcast queued to ${targets.length} recipients.`,
+  } as const;
 }
 
 // Form-Data facing server actions (migrated from events.ts)
