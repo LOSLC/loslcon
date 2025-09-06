@@ -1,6 +1,9 @@
 "use server";
 import { z } from "zod";
-import { getTickets as dalGetTickets, createRegistration } from "@/core/dal/registrations";
+import {
+  getTickets as dalGetTickets,
+  createRegistration,
+} from "@/core/dal/registrations";
 import { db } from "@/core/db/setup";
 import { ticketsTable } from "@/core/db/schemas";
 import { getCurrentUser } from "@/core/dal/session";
