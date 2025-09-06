@@ -123,8 +123,38 @@ export default async function AdminDashboardPage({
           </div>
           <div className="md:col-span-4 grid gap-1.5">
             <Label htmlFor="message">Message</Label>
-            <textarea id="message" name="message" required rows={4} className="rounded-md border bg-background px-3 py-2 text-sm" placeholder="Write your message. Links like https://example.com will be clickable." />
-            <div className="text-xs text-muted-foreground">Links in the message are automatically detected and made clickable. Each email greets the recipient by name.</div>
+            <textarea 
+              id="message" 
+              name="message" 
+              required 
+              rows={8} 
+              className="rounded-md border bg-background px-3 py-2 text-sm font-mono" 
+              placeholder="Write your message using **Markdown** formatting...
+
+# Main Heading
+## Subheading
+
+**Bold text** and *italic text* for emphasis.
+`Code snippets` for technical terms.
+[Links](https://example.com) will be clickable.
+
+- Bullet point lists
+- Work great for organizing info
+
+1. Numbered lists
+2. Are also supported
+
+> Blockquotes for important notes
+
+---
+
+Line breaks and paragraphs are preserved automatically!" 
+            />
+            <div className="text-xs text-muted-foreground space-y-1">
+              <div>🎨 <strong>Full Markdown support:</strong> Headings, **bold**, *italic*, `code`, [links](url), lists, blockquotes</div>
+              <div>📝 <strong>Beautiful formatting:</strong> Your message will be styled professionally in the email</div>
+              <div>👋 <strong>Personalized:</strong> Each email greets the recipient by name</div>
+            </div>
           </div>
           <div className="md:col-span-4 flex justify-end">
             <Button type="submit">Send broadcast</Button>
