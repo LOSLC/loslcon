@@ -15,6 +15,10 @@
     "date": "22 novembre 2025",
     "place": "Institut Français du Togo",
     "countdown": {
+  "startsIn": "Commence dans",
+  "live": "En direct",
+  "endsIn": "Se termine dans",
+  "ended": "Événement terminé",
       "days": "Jours",
       "hours": "Heures",
       "minutes": "Minutes",
@@ -23,7 +27,7 @@
   },
   "about": {
     "badge": "Événement Tech 2025",
-  "heading": "À propos de LOSL-CON 2025",
+    "heading": "À propos de LOSL-CON 2025",
     "body": "LOSL-CON 2025 rassemble la communauté tech togolaise autour de la cybersécurité, l'open source et Linux. Une journée d'apprentissage, de networking et d'innovation technologique.",
     "stats": {
   "speakers": "5",
@@ -213,5 +217,73 @@
     "select": "Sélectionner un pays",
     "searchPlaceholder": "Rechercher un pays...",
     "noResults": "Aucun résultat."
+  },
+  "expo": {
+    "badge": "Nouveau",
+    "heading": "Foire des projets open‑source",
+    "subtitle": "À l’occasion de LOSL‑CON 2025, exposez votre projet et mettez‑le en lumière.",
+    "whoTitle": "Pour qui ?",
+    "types": {
+      "lib": "Librairie / Framework",
+      "ai": "IA / ML",
+      "iot": "IoT / Hardware",
+      "security": "Outils cybersécurité",
+      "other": "Et tout autre projet open‑source"
+    },
+    "whoNote": "Étudiants, makers, équipes, communautés : vous êtes les bienvenus.",
+    "whyTitle": "Pourquoi exposer ?",
+    "benefits": {
+      "visibilityTitle": "Gagnez en visibilité",
+      "visibilityDesc": "Présentez votre projet devant une audience engagée.",
+      "supportTitle": "Trouvez du soutien",
+      "supportDesc": "Bénéficiez de retours, de contributions et de connexions.",
+      "showcaseTitle": "Montrez votre savoir‑faire",
+      "showcaseDesc": "Démontrez votre expertise aux partenaires et recruteurs."
+    },
+    "cta": "Postuler maintenant",
+  "deadline": "Les places sont limitées — postulez dès maintenant.",
+  "knowMore": "En savoir plus"
+  },
+  "fair": {
+    "badge": "Expo",
+    "title": "Foire des projets open‑source",
+    "subtitle": "Exposez votre projet à LOSL‑CON 2025, gagnez en visibilité et connectez‑vous avec la communauté.",
+    "who": {
+      "title": "Pour qui ?",
+      "desc": "Développeurs, étudiants, makers, équipes et communautés open‑source.",
+      "items": {
+        "lib": "Librairies, frameworks, outils",
+        "security": "Cybersécurité & forensics",
+        "community": "Projets de communauté",
+        "other": "IA/ML, IoT, DevTools, et plus"
+      }
+    },
+    "why": {
+      "title": "Pourquoi participer ?",
+      "visibility": { "title": "Visibilité accrue", "desc": "Présentez votre projet à une audience engagée." },
+      "feedback": { "title": "Retours & contributions", "desc": "Échangez avec des pairs et potentiels contributeurs." },
+      "network": { "title": "Networking", "desc": "Rencontrez partenaires, mentors et recruteurs." }
+    },
+    "how": {
+      "title": "Comment ça marche",
+      "step1": { "title": "1. Postulez", "desc": "Remplissez le formulaire avec une courte description." },
+      "step2": { "title": "2. Sélection", "desc": "Nous évaluons l’impact, la clarté et la démonstrabilité." },
+      "step3": { "title": "3. Expo", "desc": "Présentez votre projet le jour J avec un stand dédié." }
+    },
+    "logistics": {
+      "title": "Logistique",
+      "power": "Prises électriques disponibles",
+      "internet": "Accès Internet (selon disponibilité)",
+      "demo": "Préparez une démo courte et claire",
+      "rules": "Respect du code de conduite"
+    },
+    "cta": "Postuler maintenant",
+    "note": "Les places sont limitées — postulez dès maintenant.",
+    "cover": { "caption": "Exposez. Inspirez. Connectez." }
+  }
+  ,
+  "partners": {
+    "heading": "Nos partenaires",
+    "viewAll": "Voir tous"
   }
 }

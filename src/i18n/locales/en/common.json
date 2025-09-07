@@ -15,6 +15,10 @@
     "date": "22 November 2025",
     "place": "Institut Français du Togo",
     "countdown": {
+  "startsIn": "Starts in",
+  "live": "Live now",
+  "endsIn": "Ends in",
+  "ended": "Event ended",
       "days": "Days",
       "hours": "Hours",
       "minutes": "Minutes",
@@ -213,5 +217,73 @@
     "select": "Select country",
     "searchPlaceholder": "Search country...",
     "noResults": "No results found."
+  },
+  "fair": {
+    "badge": "Expo",
+    "title": "Open‑source Projects Fair",
+    "subtitle": "Showcase your project at LOSL‑CON 2025, gain visibility, and connect with the community.",
+    "who": {
+      "title": "Who is it for?",
+      "desc": "Developers, students, makers, teams, and open‑source communities.",
+      "items": {
+        "lib": "Libraries, frameworks, tools",
+        "security": "Cybersecurity & forensics",
+        "community": "Community projects",
+        "other": "AI/ML, IoT, DevTools, and more"
+      }
+    },
+    "why": {
+      "title": "Why participate?",
+      "visibility": { "title": "Increased visibility", "desc": "Present your project to an engaged audience." },
+      "feedback": { "title": "Feedback & contributions", "desc": "Connect with peers and potential contributors." },
+      "network": { "title": "Networking", "desc": "Meet partners, mentors, and recruiters." }
+    },
+    "how": {
+      "title": "How it works",
+      "step1": { "title": "1. Apply", "desc": "Fill in the form with a short description." },
+      "step2": { "title": "2. Selection", "desc": "We evaluate impact, clarity, and demo readiness." },
+      "step3": { "title": "3. Expo", "desc": "Showcase your project on the day with a dedicated booth." }
+    },
+    "logistics": {
+      "title": "Logistics",
+      "power": "Power outlets available",
+      "internet": "Internet access (subject to availability)",
+      "demo": "Prepare a short, crisp demo",
+      "rules": "Follow the code of conduct"
+    },
+    "cta": "Apply now",
+    "note": "Limited spots — apply today.",
+    "cover": { "caption": "Showcase. Inspire. Connect." }
+  },
+  "expo": {
+    "badge": "New",
+    "heading": "Open‑source Projects Fair",
+    "subtitle": "At LOSL‑CON 2025, showcase your project and put it in the spotlight.",
+    "whoTitle": "Who is it for?",
+    "types": {
+      "lib": "Library / Framework",
+      "ai": "AI / ML",
+      "iot": "IoT / Hardware",
+      "security": "Security tools",
+      "other": "And any other open‑source project"
+    },
+    "whoNote": "Students, makers, teams, and communities are welcome.",
+    "whyTitle": "Why exhibit?",
+    "benefits": {
+      "visibilityTitle": "Gain visibility",
+      "visibilityDesc": "Present your project to an engaged audience.",
+      "supportTitle": "Get support",
+      "supportDesc": "Receive feedback, contributions, and connections.",
+      "showcaseTitle": "Showcase your skills",
+      "showcaseDesc": "Demonstrate your expertise to partners and recruiters."
+    },
+    "cta": "Apply now",
+  "deadline": "Limited spots — apply today.",
+  "knowMore": "Learn more"
+  }
+  ,
+  "partners": {
+    "heading": "Our partners",
+    "viewAll": "View all"
   }
 }
