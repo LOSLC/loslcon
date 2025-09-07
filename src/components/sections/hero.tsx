@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollCurtains } from "@/components/ui/scroll-curtains";
 import { Stagger, Item } from "@/components/ui/reveal";
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import confetti from "canvas-confetti";
 
 function FlipUnit({
   value,
@@ -36,148 +37,6 @@ function FlipUnit({
         </div>
       </div>
     </div>
-  );
-}
-
-// Lightweight confetti canvas overlay
-function ConfettiCanvas({
-  trigger,
-  onDone,
-  duration = 2200,
-  maxParticles = 120,
-}: {
-  trigger: boolean;
-  onDone?: () => void;
-  duration?: number;
-  maxParticles?: number;
-}) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const startedRef = useRef(false);
-  const startTimeRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (!trigger || startedRef.current) return;
-    startedRef.current = true;
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d", { alpha: true });
-    if (!ctx) return;
-
-    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-    const resize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-    const onResize = () => resize();
-    window.addEventListener("resize", onResize);
-
-    const colors = [
-      "#38bdf8",
-      "#22c55e",
-      "#f59e0b",
-      "#a78bfa",
-      "#ec4899",
-      "#ffffff",
-    ]; // sky, emerald, amber, violet, pink, white
-    type P = {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      g: number;
-      size: number;
-      r: number;
-      vr: number;
-      life: number;
-      max: number;
-      color: string;
-      shape: number;
-    };
-    const parts: P[] = [];
-    const spawn = (n: number) => {
-      for (let i = 0; i < n; i++) {
-        const angle = Math.random() * Math.PI - Math.PI / 2; // left-to-right fan
-        const speed = 6 + Math.random() * 7;
-        parts.push({
-          x: window.innerWidth * (0.2 + Math.random() * 0.6),
-          y: -10,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed + 2,
-          g: 0.18 + Math.random() * 0.12,
-          size: 6 + Math.random() * 6,
-          r: Math.random() * Math.PI,
-          vr: (Math.random() - 0.5) * 0.25,
-          life: 0,
-          max: duration * (0.6 + Math.random() * 0.6),
-          color: colors[(Math.random() * colors.length) | 0],
-          shape: Math.random() < 0.5 ? 0 : 1,
-        });
-      }
-    };
-    spawn(Math.min(40, Math.floor(maxParticles * 0.35)));
-
-    const step = (ts: number) => {
-      if (startTimeRef.current == null) startTimeRef.current = ts;
-      const t = ts - startTimeRef.current;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // trickle spawn for burst feel
-      if (parts.length < maxParticles && t < duration * 0.8) spawn(3);
-
-      for (let i = parts.length - 1; i >= 0; i--) {
-        const p = parts[i];
-        p.life += 16.7; // approx
-        p.vy += p.g;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.r += p.vr;
-        // fade near end of life
-        const fade =
-          p.life > p.max * 0.7 ? 1 - (p.life - p.max * 0.7) / (p.max * 0.3) : 1;
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, Math.min(1, fade));
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.r);
-        ctx.fillStyle = p.color;
-        if (p.shape === 0) {
-          ctx.fillRect(-p.size * 0.5, -p.size * 0.5, p.size, p.size);
-        } else {
-          ctx.beginPath();
-          ctx.arc(0, 0, p.size * 0.55, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.restore();
-
-        if (p.life > p.max || p.y > window.innerHeight + 40) parts.splice(i, 1);
-      }
-
-      if (t < duration || parts.length > 0) {
-        rafRef.current = requestAnimationFrame(step);
-      } else {
-        cancelAnimationFrame(rafRef.current!);
-        window.removeEventListener("resize", onResize);
-        onDone?.();
-      }
-    };
-    rafRef.current = requestAnimationFrame(step);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("resize", onResize);
-    };
-  }, [trigger, onDone, duration, maxParticles]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-[60]"
-      aria-hidden
-    />
   );
 }
 
@@ -232,9 +91,6 @@ export function Hero() {
     };
   }, []);
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const [playConfetti, setPlayConfetti] = useState(false);
-  const confettiPlayedRef = useRef(false);
 
   // Tiny star dots background (static, lightweight)
   const starBgSmall = useMemo(() => {
@@ -270,38 +126,59 @@ export function Hero() {
     return () => clearInterval(id);
   }, []);
 
-  // Trigger confetti once user scrolls past the hero section
   useEffect(() => {
-    if (reduceMotion) return; // respect prefers-reduced-motion
-    const el = sectionRef.current;
-    if (!el) return;
-    const threshold = () => el.offsetTop + el.offsetHeight - 120;
-    let lastW = window.innerWidth,
-      lastH = window.innerHeight;
-    let thresh = threshold();
-    const onResize = () => {
-      if (window.innerWidth !== lastW || window.innerHeight !== lastH) {
-        lastW = window.innerWidth;
-        lastH = window.innerHeight;
-        thresh = threshold();
-      }
+    // Resolve theme colors to browser-safe rgb() strings for canvas
+    const root = getComputedStyle(document.documentElement);
+    const getVar = (name: string, fb: string) =>
+      (root.getPropertyValue(name).trim() || fb);
+    const resolveColor = (cssColor: string) => {
+      const el = document.createElement("span");
+      el.style.position = "absolute";
+      el.style.left = "-9999px";
+      el.style.color = cssColor;
+      document.body.appendChild(el);
+      const c = getComputedStyle(el).color;
+      el.remove();
+      return c || cssColor;
     };
-    const onScroll = () => {
-      if (confettiPlayedRef.current) return;
-      if (window.scrollY > thresh) {
-        confettiPlayedRef.current = true;
-        setPlayConfetti(true);
-      }
+    const brandColors = [
+      resolveColor(getVar("--color-primary", "#38bdf8")),
+      resolveColor(getVar("--color-accent", "#22c55e")),
+      resolveColor(getVar("--color-ring", "#a78bfa")),
+      resolveColor(getVar("--color-foreground", "#ffffff")),
+    ];
+
+    const defaults = {
+      spread: 360,
+      ticks: 50,
+      gravity: 0,
+      decay: 0.94,
+      startVelocity: 30,
+      colors: brandColors,
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
-    // in case already scrolled
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll as EventListener);
-      window.removeEventListener("resize", onResize);
+
+    const shoot = () => {
+      confetti({
+        ...defaults,
+        particleCount: 40,
+        scalar: 1.2,
+        shapes: ["square"],
+      });
+
+      confetti({
+        ...defaults,
+        particleCount: 10,
+        scalar: 0.75,
+        shapes: ["square"],
+      });
     };
-  }, [reduceMotion]);
+
+    setTimeout(shoot, 0);
+    setTimeout(shoot, 100);
+    setTimeout(shoot, 200);
+  }, []);
+
+  // Confetti removed per request
 
   // Derive phase and remaining time
   const beforeStart = now < startTs;
@@ -318,7 +195,7 @@ export function Hero() {
   const seconds = Math.floor((base / 1000) % 60);
 
   return (
-    <section ref={sectionRef} className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden">
       {/* Background (optimized) */}
       <div aria-hidden className="absolute inset-0 -z-10">
         {/* Layered radial gradients */}
@@ -531,13 +408,6 @@ export function Hero() {
           </Item>
         </Stagger>
       </div>
-      {/* One-time confetti overlay */}
-      {playConfetti && !reduceMotion && (
-        <ConfettiCanvas
-          trigger={playConfetti}
-          onDone={() => setPlayConfetti(false)}
-        />
-      )}
     </section>
   );
 }
