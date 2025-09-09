@@ -19,5 +19,10 @@ export const PARTNERS: Partner[] = [
     name: "Africa Networking Premium",
     imageFile: "/partners/anp.jpg",
     url: "https://www.facebook.com/AfricaNetworkingPremium",
-  }
+  },
+  {
+    name: "JetBrains",
+    imageFile: "/partners/jb.png",
+    url: "https://www.jetbrains.com",
+  },
 ];
