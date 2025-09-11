@@ -32,7 +32,7 @@
     "stats": {
   "speakers": "5",
       "speakers_label": "Expert speakers",
-  "attendees": "150+",
+  "attendees": "300+",
       "attendees_label": "Attendees",
   "workshops": "3",
       "workshops_label": "Hands-on workshops",
@@ -95,7 +95,7 @@
   "dateDesc": "Full-day event",
   "location": "Lomé, Togo",
   "venue": "Institut Français du Togo",
-  "capacity": "150+ Attendees",
+  "capacity": "300+ Attendees",
   "networking": "Premium networking",
   "benefits": "Goodies included",
   "swag": "Certificates & more",
@@ -138,34 +138,50 @@
     "title": "Become a sponsor – LOSL-CON 2025",
   "subtitle": "Reach an engaged audience. Boost your visibility. Hire your next talents.",
     "badges": {
+      "premium": "Premium Elite",
       "top": "Top visibility",
       "popular": "Popular"
     },
     "tiers": {
+      "diamond": {
+        "name": "Diamond",
+        "benefit1": "Giant logo on stage & website",
+  "benefit2": "Opening keynote (10-15 min)",
+        "benefit3": "Exclusive premium booth",
+        "benefit4": "20 VIP passes + backstage",
+        "benefit5": "Dedicated marketing campaign",
+        "benefit6": "Event co-branding",
+        "benefit7": "Exclusive video interview"
+      },
       "gold": {
         "name": "Gold",
         "benefit1": "XXL logo on stage & website",
-        "benefit2": "Opening message (3–5 min)",
+  "benefit2": "Opening message (3–5 min)",
         "benefit3": "Premium booth space",
-        "benefit4": "10 VIP passes",
-        "benefit5": "Campaigns on our socials"
-      },
+  "benefit4": "10 VIP passes",
+  "benefit5": "Campaigns on our socials",
+  "benefit6": "Newsletter mention",
+  "benefit7": "VIP networking access"
+  },
       "silver": {
         "name": "Silver",
         "benefit1": "Large logo on stage & website",
         "benefit2": "Join a panel discussion",
         "benefit3": "Dedicated booth space",
-        "benefit4": "6 passes",
-        "benefit5": "Newsletter mention"
-      },
+  "benefit4": "6 passes",
+  "benefit5": "Newsletter mention",
+  "benefit6": "Social media post",
+  "benefit7": "Networking access"
+  },
       "bronze": {
         "name": "Bronze",
         "benefit1": "Logo on website & screens",
-        "benefit2": "3 passes",
+  "benefit2": "3 passes",
         "benefit3": "Social media thanks",
         "benefit4": "Add goodies to swag",
-        "benefit5": "Listed on sponsors page"
-      },
+  "benefit5": "Listed on sponsors page",
+  "benefit6": "Networking cocktail access"
+  },
       "custom": {
         "name": "Other contribution",
         "note": "Custom contact",
@@ -174,18 +190,23 @@
         "benefit3": "Ideal for startups & communities",
         "benefit4": "Co-built objectives",
         "benefit5": "Fitted activations"
-      }
+  }
     },
     "features": {
+  "exclusive": "Total exclusivity",
+  "cobranding": "Co-branding",
+  "keynote": "Exclusive keynote",
+  "backstage": "Backstage access",
       "mediaBoost": "Media boost",
       "talentReach": "Talent reach",
       "sceneTime": "Stage time"
     },
     "cta": {
-      "gold": "Become a sponsor",
-      "silver": "Become a sponsor",
-      "bronze": "Become a sponsor",
-      "custom": "Become a sponsor"
+  "diamond": "Become a sponsor",
+  "gold": "Become a sponsor",
+  "silver": "Become a sponsor",
+  "bronze": "Become a sponsor",
+  "custom": "Become a sponsor"
     },
     "contact": {
       "heading": "For any sponsorship request or proposal, contact us at:"
