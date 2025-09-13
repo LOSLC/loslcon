@@ -39,7 +39,7 @@ export function About() {
                 <div className="text-sm text-muted-foreground" data-i18n="about.stats.speakers_label">Speakers experts</div>
               </div>
               <div className="p-4 rounded-2xl bg-card/50 backdrop-blur border border-border/50">
-                <div className="text-2xl font-bold text-primary" data-i18n="about.stats.attendees">150+</div>
+                <div className="text-2xl font-bold text-primary" data-i18n="about.stats.attendees">300–500</div>
                 <div className="text-sm text-muted-foreground" data-i18n="about.stats.attendees_label">Participants</div>
               </div>
               <div className="p-4 rounded-2xl bg-card/50 backdrop-blur border border-border/50">

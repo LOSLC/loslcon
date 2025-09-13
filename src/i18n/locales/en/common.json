@@ -32,7 +32,7 @@
     "stats": {
   "speakers": "5",
       "speakers_label": "Expert speakers",
-  "attendees": "300+",
+  "attendees": "300–500",
       "attendees_label": "Attendees",
   "workshops": "3",
       "workshops_label": "Hands-on workshops",
@@ -95,7 +95,7 @@
   "dateDesc": "Full-day event",
   "location": "Lomé, Togo",
   "venue": "Institut Français du Togo",
-  "capacity": "300+ Attendees",
+  "capacity": "300–500 Attendees",
   "networking": "Premium networking",
   "benefits": "Goodies included",
   "swag": "Certificates & more",
