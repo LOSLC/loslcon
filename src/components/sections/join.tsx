@@ -98,7 +98,7 @@ export function Join() {
                           className="text-sm font-medium"
                           data-i18n="join.capacity"
                         >
-                          150+ Participants
+                          300–500 Participants
                         </div>
                         <div
                           className="text-xs text-muted-foreground"
