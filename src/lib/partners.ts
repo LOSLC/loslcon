@@ -25,4 +25,9 @@ export const PARTNERS: Partner[] = [
     imageFile: "/partners/jb.png",
     url: "https://www.jetbrains.com",
   },
+  {
+    name: "OrgaAfrica",
+    imageFile: "/partners/orga.png",
+    url: "https://www.orga-africa.com",
+  },
 ];
