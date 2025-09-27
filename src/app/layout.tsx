@@ -48,7 +48,8 @@ export default async function RootLayout({
   return (
     <html lang={DEFAULT_LOCALE} className="dark">
       <head>
-        <meta name="color-scheme" content="dark light" />
+        {/* Force dark-only color scheme */}
+        <meta name="color-scheme" content="dark" />
         <meta name="theme-color" content="#0b1020" />
       </head>
       <body
@@ -62,8 +63,8 @@ export default async function RootLayout({
           crawl
           easing="ease"
         />
-  <AutoTranslate />
-  <Header isLoggedIn={!!user} />
+        <AutoTranslate />
+        <Header isLoggedIn={!!user} />
         {children}
         <Footer />
       </body>
