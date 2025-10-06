@@ -26,6 +26,11 @@ export const PARTNERS: Partner[] = [
     url: "https://www.orga-africa.com",
   },
   {
+    name: "Internet Society Chapitre Togo",
+    imageFile: "/partners/isoc.png",
+    url: "https://internetsociety.tg/",
+  },
+  {
     name: "Python Togo",
     imageFile: "/partners/pytg.png",
     url: "https://pytogo.org",
@@ -49,11 +54,6 @@ export const PARTNERS: Partner[] = [
     name: "Night Coding",
     imageFile: "/partners/nc.png",
     url: "https://www.linkedin.com/company/night-coding-2023",
-  },
-  {
-    name: "Internet Society Chapitre Togo",
-    imageFile: "/partners/isoc.png",
-    url: "https://internetsociety.tg/",
   },
   {
     name: "Cursor Togo",
