@@ -270,12 +270,11 @@ export async function confirmPayment(transactionId: string) {
         message: "Payment confirmed. Registration completed.",
         ticketDownloadUrl,
       } as const;
-    } else {
-      await db
-        .delete(registrationsTable)
-        .where(eq(registrationsTable.transaction_id, transactionId));
-      return { error: `Payment not approved (status: ${status}).` } as const;
     }
+    await db
+      .delete(registrationsTable)
+      .where(eq(registrationsTable.transaction_id, transactionId));
+    return { error: `Payment not approved (status: ${status}).` } as const;
   } catch (_e: unknown) {
     return { error: "Payment verification failed." } as const;
   }
