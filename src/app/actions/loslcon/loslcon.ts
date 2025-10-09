@@ -370,9 +370,9 @@ export async function broadcastMessage(form: FormData) {
 const registrationSchema = z.object({
   firstname: z.string().min(2),
   lastname: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
   phone_number: z.string().min(4),
-  ticket_id: z.string().uuid(),
+  ticket_id: z.uuid(),
   country_code: z.string().min(1),
 });
 
