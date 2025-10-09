@@ -488,7 +488,7 @@ export async function saveRegistrationSettings(_prev: unknown, form: FormData) {
 
 // Admin: update/delete ticket actions
 const ticketUpdateSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   type: z.string().min(1),
   name: z.string().min(2),
   description: z.string().min(4),
@@ -573,8 +573,8 @@ export async function markRegistrationAttended(form: FormData) {
 
 // Admin: update and delete registrations
 const registrationUpdateSchema = z.object({
-  id: z.string().uuid(),
-  ticket_id: z.string().uuid(),
+  id: z.uuid(),
+  ticket_id: z.uuid(),
   confirmed: z.coerce.boolean().optional().default(false),
 });
 
