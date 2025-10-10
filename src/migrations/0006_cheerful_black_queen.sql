@@ -1,0 +1,1 @@
+ALTER TABLE "tickets" ADD COLUMN "sold_out" boolean DEFAULT false NOT NULL;

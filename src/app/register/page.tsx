@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Ticket } from "@/core/db/schemas";
 
 export const dynamic = "force-dynamic";
 
@@ -160,10 +161,19 @@ export default async function EventRegistrationPage({
                     const bg = t.fGradient && t.sGradient
                       ? `linear-gradient(135deg, ${t.fGradient}, ${t.sGradient})`
                       : undefined;
+                    const isSoldOut = Boolean((t as Ticket).soldout);
                     return (
                       <label
                         key={t.id}
-                        className="group relative block cursor-pointer rounded-xl border border-border/70 bg-background p-4 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-ring"
+                        className={
+                          [
+                            "group relative block rounded-xl border border-border/70 bg-background p-4 shadow-xs transition-all",
+                            !isSoldOut && "cursor-pointer hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-ring",
+                            isSoldOut && "opacity-60 grayscale cursor-not-allowed",
+                          ]
+                            .filter(Boolean)
+                            .join(" ")
+                        }
                       >
                         <input
                           className="peer absolute inset-0 size-full cursor-pointer opacity-0"
@@ -172,6 +182,7 @@ export default async function EventRegistrationPage({
                           value={t.id}
                           required
                           defaultChecked={preselect === t.id}
+                          disabled={isSoldOut}
                           aria-label={`Select ${t.name} ticket`}
                         />
                         <div
@@ -189,7 +200,7 @@ export default async function EventRegistrationPage({
                                 )}
                               </div>
                               <span className="rounded-md bg-background/70 px-2 py-1 text-[10px] font-medium tracking-wide">
-                                {String(t.type || "").toUpperCase()}
+                                {isSoldOut ? <span data-i18n="tickets.badges.soldout">Sold out</span> : String(t.type || "").toUpperCase()}
                               </span>
                             </div>
                             <div className="mt-3 flex items-baseline gap-2">

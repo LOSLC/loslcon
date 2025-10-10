@@ -43,6 +43,13 @@
       "when": 1756763315079,
       "tag": "0005_fluffy_mystique",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1760052963266,
+      "tag": "0006_cheerful_black_queen",
+      "breakpoints": true
     }
   ]
 }

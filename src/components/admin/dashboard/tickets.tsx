@@ -1,15 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { deleteTicket, updateTicket } from "@/app/actions/loslcon/loslcon";
+import { deleteTicket, updateTicket, setTicketSoldout } from "@/app/actions/loslcon/loslcon";
+import { T } from "@/components/i18n/t";
 import { redirect } from "next/navigation";
 
-export function TicketCard({ t }: { t: { id: string; type: string; name: string; description: string; perks: string; fGradient?: string | null; sGradient?: string | null; price: number } }) {
+export function TicketCard({ t }: { t: { id: string; type: string; name: string; description: string; perks: string; fGradient?: string | null; sGradient?: string | null; price: number; soldout?: boolean } }) {
   const perks = t.perks
     .split(",")
     .map((p) => p.trim())
     .filter(Boolean);
   return (
     <div key={t.id} className="relative rounded-xl ring-1 ring-border overflow-hidden">
+      {t.soldout && (
+        <div className="absolute right-3 top-3 z-10">
+          <span className="inline-flex items-center rounded-full bg-red-600 text-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide shadow-sm">
+            <T k="tickets.badges.soldout" />
+          </span>
+        </div>
+      )}
       <div
         className="p-4"
         style={{
@@ -33,6 +41,12 @@ export function TicketCard({ t }: { t: { id: string; type: string; name: string;
                   maximumFractionDigits: 0,
                 }).format(t.price)}
               </span>
+              {t.soldout && (
+                <>
+                  <span className="opacity-70">•</span>
+                  <span className="text-red-600 dark:text-red-400 font-medium">SOLD OUT</span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -48,6 +62,23 @@ export function TicketCard({ t }: { t: { id: string; type: string; name: string;
         )}
       </div>
       <div className="border-t p-3 flex items-center justify-end gap-2 bg-background/60">
+        <form
+          action={async (fd: FormData) => {
+            "use server";
+            fd.set("id", t.id);
+            if (t.soldout) {
+              // untick: set soldout false by omitting checkbox
+            } else {
+              fd.set("soldout", "on");
+            }
+            await setTicketSoldout(fd);
+            redirect("/admin/dashboard");
+          }}
+        >
+          <Button type="submit" variant={t.soldout ? "secondary" : "destructive"}>
+            {t.soldout ? <T k="tickets.admin.markAvailable" /> : <T k="tickets.admin.markSoldout" />}
+          </Button>
+        </form>
         <form
           action={async (fd: FormData) => {
             "use server";
@@ -78,6 +109,10 @@ export function TicketCard({ t }: { t: { id: string; type: string; name: string;
             <Input name="fGradient" defaultValue={t.fGradient ?? ""} />
             <Input name="sGradient" defaultValue={t.sGradient ?? ""} />
             <Input name="price" type="number" min={0} defaultValue={t.price} required />
+            <label className="col-span-2 inline-flex items-center gap-2 text-sm">
+              <input type="checkbox" name="soldout" defaultChecked={t.soldout ?? false} />
+              <span>Sold out</span>
+            </label>
             <div className="col-span-2 flex justify-end mt-2">
               <Button type="submit">Save</Button>
             </div>
@@ -88,7 +123,7 @@ export function TicketCard({ t }: { t: { id: string; type: string; name: string;
   );
 }
 
-export function TicketsGrid({ tickets }: { tickets: Array<{ id: string; type: string; name: string; description: string; perks: string; fGradient?: string | null; sGradient?: string | null; price: number }> }) {
+export function TicketsGrid({ tickets }: { tickets: Array<{ id: string; type: string; name: string; description: string; perks: string; fGradient?: string | null; sGradient?: string | null; price: number; soldout?: boolean }> }) {
   return (
     <section className="mt-8">
       <h2 className="text-xl font-semibold mb-3">Tickets</h2>

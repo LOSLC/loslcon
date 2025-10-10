@@ -10,6 +10,7 @@ export const ticketsTable = pg.pgTable("tickets", {
   fGradient: pg.varchar("f_gradient"),
   sGradient: pg.varchar("s_gradient"),
   price: pg.integer("price").notNull(), // In XOF
+  soldout: pg.boolean("sold_out").default(false).notNull(),
   createdAt: pg.timestamp("created_at").defaultNow().notNull(),
   createdBy: pg
     .uuid("created_by")

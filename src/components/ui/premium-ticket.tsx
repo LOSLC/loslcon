@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "./button";
 import { Badge } from "./badge";
 import { CheckIcon, StarIcon } from "lucide-react";
+import { T } from "@/components/i18n/t";
 
 interface PremiumTicketProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
@@ -17,6 +18,8 @@ interface PremiumTicketProps extends React.HTMLAttributes<HTMLDivElement> {
   href?: string;
   popular?: boolean;
   isPremium?: boolean;
+  disabled?: boolean;
+  disabledText?: string;
 }
 
 function PremiumTicket({
@@ -32,6 +35,8 @@ function PremiumTicket({
   href,
   popular = false,
   isPremium = false,
+  disabled = false,
+  disabledText = "Sold out",
   ...props
 }: PremiumTicketProps) {
   const formatPrice = (price: number) => {
@@ -48,12 +53,15 @@ function PremiumTicket({
   return (
     <Card
       className={cn(
-        "relative transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group",
+        "relative transition-all duration-300 group",
+        !disabled && "hover:shadow-xl hover:scale-[1.02]",
         "bg-gradient-to-br from-background to-background/95",
-        "border-2 border-border/50 hover:border-border",
+        "border-2 border-border/50",
+        !disabled && "hover:border-border",
         "mt-6 h-full flex flex-col", // Add top margin to accommodate the badge and ensure equal height
         popular && "ring-2 ring-emerald-500/30 border-emerald-500/50",
         isPremium && "ring-2 ring-amber-500/30 border-amber-500/50",
+        disabled && "opacity-70 grayscale",
         className
       )}
       style={{
@@ -69,19 +77,20 @@ function PremiumTicket({
         }}
       />
       
-      {/* Popular/Premium badge */}
-      {(popular || isPremium) && (
+      {/* Popular/Premium/Soldout badge */}
+      {(popular || isPremium || disabled) && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
           <Badge
             variant="default"
             className={cn(
               "rounded-full px-3 py-1 text-xs font-semibold shadow-lg whitespace-nowrap",
               popular && "bg-gradient-to-r from-emerald-500 to-teal-500",
-              isPremium && "bg-gradient-to-r from-amber-500 to-orange-500"
+              isPremium && "bg-gradient-to-r from-amber-500 to-orange-500",
+              disabled && "bg-gradient-to-r from-zinc-500 to-neutral-500"
             )}
           >
-            {popular ? "Populaire" : "Premium"}
-            {isPremium && <StarIcon className="w-3 h-3 ml-1" />}
+            {disabled ? <T k="tickets.badges.soldout" /> : popular ? "Populaire" : "Premium"}
+            {!disabled && isPremium && <StarIcon className="w-3 h-3 ml-1" />}
           </Badge>
         </div>
       )}
@@ -139,7 +148,7 @@ function PremiumTicket({
       </CardContent>
 
       <CardFooter className="pt-6 px-6 pb-6 flex-col mt-auto relative z-10">
-        {href ? (
+        {href && !disabled ? (
           <a
             href={href}
             className={cn(
@@ -157,9 +166,10 @@ function PremiumTicket({
           </a>
         ) : (
           <Button
+            disabled={disabled}
             className={cn(
               "w-full h-12 font-semibold text-white shadow-lg transition-all duration-300",
-              "hover:shadow-xl hover:-translate-y-0.5 relative z-10",
+              !disabled && "hover:shadow-xl hover:-translate-y-0.5",
               "focus:ring-4 focus:ring-opacity-50"
             )}
             style={{
@@ -167,7 +177,7 @@ function PremiumTicket({
               boxShadow: `0 4px 12px ${primary}30`,
             }}
           >
-            {price === 0 ? "Obtenir gratuitement" : "Acheter maintenant"}
+            {disabled ? disabledText : price === 0 ? "Obtenir gratuitement" : "Acheter maintenant"}
           </Button>
         )}
       </CardFooter>

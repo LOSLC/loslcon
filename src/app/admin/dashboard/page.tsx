@@ -157,6 +157,10 @@ export default async function AdminDashboardPage({
                 required
               />
             </div>
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input id="soldout" name="soldout" type="checkbox" />
+              <span>Mark as sold out</span>
+            </label>
             <div className="flex justify-end">
               <Button type="submit">Create</Button>
             </div>

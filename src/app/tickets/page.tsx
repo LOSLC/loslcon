@@ -9,14 +9,18 @@ export default async function TicketsPage() {
     <main className="min-h-screen bg-gradient-to-br from-background via-background to-background/95">
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-primary">
             <span data-i18n="tickets.title">Choose Your Ticket</span>
           </h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            <span data-i18n="tickets.subtitle">Select the perfect ticket for your LOSL-CON 2025 experience. All tickets include access to talks, workshops, and networking opportunities.</span>
+            <span data-i18n="tickets.subtitle">
+              Select the perfect ticket for your LOSL-CON 2025 experience. All
+              tickets include access to talks, workshops, and networking
+              opportunities.
+            </span>
           </p>
         </div>
-        
+
         <div className="grid gap-8 md:gap-12 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center max-w-7xl mx-auto px-4">
           {tickets.map((t, index) => {
             const perks = (t.perks || "")
@@ -26,11 +30,13 @@ export default async function TicketsPage() {
             const primary = t.fGradient || "#7c3aed";
             const secondary = t.sGradient || "#06b6d4";
             const href = `/register?ticket=${encodeURIComponent(t.id)}`;
-            
+
             // Add visual variety based on ticket index/type
-            const isPopular = index === 1 || t.type?.toLowerCase().includes('standard');
-            const isPremium = t.price > 10000 || t.type?.toLowerCase().includes('vip');
-            
+            const isPopular =
+              index === 1 || t.type?.toLowerCase().includes("standard");
+            const isPremium =
+              t.price > 10000 || t.type?.toLowerCase().includes("vip");
+
             return (
               <div key={t.id} className="w-full max-w-sm h-full flex">
                 <PremiumTicket
@@ -42,19 +48,23 @@ export default async function TicketsPage() {
                   perks={perks}
                   primary={primary}
                   secondary={secondary}
-                  href={href}
+                  href={t.soldout ? undefined : href}
                   popular={isPopular}
                   isPremium={isPremium}
+                  disabled={t.soldout}
+                  disabledText={"Sold out"}
                   className="w-full"
                 />
               </div>
             );
           })}
         </div>
-        
+
         <div className="mt-16 text-center">
           <p className="text-sm text-muted-foreground mb-4">
-            <span data-i18n="tickets.help">Questions about tickets? Contact us for more information.</span>
+            <span data-i18n="tickets.help">
+              Questions about tickets? Contact us for more information.
+            </span>
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
