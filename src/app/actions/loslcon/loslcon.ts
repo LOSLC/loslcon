@@ -63,6 +63,11 @@ export async function register(details: RegistrationDetails) {
     return { error: "The selected ticket is invalid." };
   }
 
+  // Prevent registrations for sold-out tickets
+  if (ticket.soldout) {
+    return { error: "The selected ticket is sold out." } as const;
+  }
+
   const [registration] = await db
     .insert(registrationsTable)
     .values({
@@ -182,6 +187,7 @@ export async function getTicketInfo(registrationId: string) {
       price: r.tickets.price,
       fGradient: r.tickets.fGradient,
       sGradient: r.tickets.sGradient,
+      soldout: r.tickets.soldout,
     },
   };
 }
@@ -197,6 +203,7 @@ export async function getTickets() {
       fGradient: ticketsTable.fGradient,
       sGradient: ticketsTable.sGradient,
       price: ticketsTable.price,
+      soldout: ticketsTable.soldout,
     })
     .from(ticketsTable);
 }
@@ -407,6 +414,7 @@ const ticketSchema = z.object({
   fGradient: z.string().optional().nullable(),
   sGradient: z.string().optional().nullable(),
   price: z.coerce.number().int().nonnegative(),
+  soldout: z.coerce.boolean().optional().default(false),
 });
 
 export async function createTicket(form: FormData) {
@@ -422,6 +430,7 @@ export async function createTicket(form: FormData) {
     fGradient: form.get("fGradient") || null,
     sGradient: form.get("sGradient") || null,
     price: form.get("price"),
+    soldout: form.get("soldout"),
   });
   if (!parsed.success) {
     return { validationErrors: parsed.error.flatten().fieldErrors } as const;
@@ -436,6 +445,7 @@ export async function createTicket(form: FormData) {
       fGradient: parsed.data.fGradient ?? null,
       sGradient: parsed.data.sGradient ?? null,
       price: parsed.data.price,
+      soldout: parsed.data.soldout ?? false,
       createdBy: user.id,
     })
     .returning();
@@ -496,6 +506,7 @@ const ticketUpdateSchema = z.object({
   fGradient: z.string().optional().nullable(),
   sGradient: z.string().optional().nullable(),
   price: z.coerce.number().int().nonnegative(),
+  soldout: z.coerce.boolean().optional().default(false),
 });
 
 export async function updateTicket(form: FormData) {
@@ -512,6 +523,7 @@ export async function updateTicket(form: FormData) {
     fGradient: form.get("fGradient") || null,
     sGradient: form.get("sGradient") || null,
     price: form.get("price"),
+    soldout: form.get("soldout"),
   });
   if (!parsed.success) {
     return { validationErrors: parsed.error.flatten().fieldErrors } as const;
@@ -526,6 +538,7 @@ export async function updateTicket(form: FormData) {
       fGradient: parsed.data.fGradient ?? null,
       sGradient: parsed.data.sGradient ?? null,
       price: parsed.data.price,
+      soldout: parsed.data.soldout ?? false,
     })
     .where(eq(ticketsTable.id, parsed.data.id));
   return { message: "Ticket updated." } as const;
@@ -540,6 +553,31 @@ export async function deleteTicket(form: FormData) {
   if (!id) return { error: "Missing ticket id" } as const;
   await db.delete(ticketsTable).where(eq(ticketsTable.id, id));
   return { message: "Ticket deleted." } as const;
+}
+
+// Admin: quick toggle for soldout state
+const ticketSoldoutSchema = z.object({
+  id: z.string().uuid(),
+  soldout: z.coerce.boolean().default(false),
+});
+
+export async function setTicketSoldout(form: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.accessLevel > 0) {
+    return { error: "Unauthorized" } as const;
+  }
+  const parsed = ticketSoldoutSchema.safeParse({
+    id: form.get("id"),
+    soldout: form.get("soldout"), // checkbox presence
+  });
+  if (!parsed.success) {
+    return { validationErrors: parsed.error.flatten().fieldErrors } as const;
+  }
+  await db
+    .update(ticketsTable)
+    .set({ soldout: parsed.data.soldout })
+    .where(eq(ticketsTable.id, parsed.data.id));
+  return { message: parsed.data.soldout ? "Marked sold out." : "Marked available." } as const;
 }
 
 // Admin: registration detail and attendance toggle

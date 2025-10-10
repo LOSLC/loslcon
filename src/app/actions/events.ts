@@ -6,6 +6,7 @@ import {
 } from "@/core/dal/registrations";
 import { db } from "@/core/db/setup";
 import { ticketsTable } from "@/core/db/schemas";
+import { eq } from "drizzle-orm";
 import { getCurrentUser } from "@/core/dal/session";
 
 export async function getTickets() {
@@ -32,6 +33,15 @@ export async function registerForEvent(form: FormData) {
     return { validationErrors: parsed.error.flatten().fieldErrors };
   }
   try {
+    // Block registration when the selected ticket is sold out
+    const [t] = await db
+      .select()
+      .from(ticketsTable)
+      .where(eq(ticketsTable.id, parsed.data.ticket_id))
+      .limit(1);
+    if (!t) return { error: "Invalid ticket." } as const;
+    if (t.soldout) return { error: "The selected ticket is sold out." } as const;
+
     const r = await createRegistration(parsed.data);
     return { id: r.id };
   } catch (_e: unknown) {

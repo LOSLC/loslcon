@@ -120,7 +120,14 @@
       "register": "Register Now",
       "sponsor": "Become a Sponsor"
     },
-    "help": "Questions about tickets? Contact us for more information."
+    "help": "Questions about tickets? Contact us for more information.",
+    "badges": {
+      "soldout": "Sold out"
+    },
+    "admin": {
+      "markSoldout": "Mark as sold out",
+      "markAvailable": "Mark as available"
+    }
   },
   "footer": {
     "rights": "© {{year}} LOSL-C. All rights reserved.",
