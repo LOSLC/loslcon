@@ -7,8 +7,6 @@ import {
   Section,
   Text,
   Hr,
-  Heading,
-  Link,
 } from "@react-email/components";
 import { marked } from "marked";
 
@@ -160,54 +158,11 @@ export default function BroadcastMessage({
               boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
             }}
           >
-            <Heading
-              style={{
-                margin: 0,
-                fontSize: 24,
-                lineHeight: 1.3,
-                color: colors.foreground,
-                fontWeight: "600",
-              }}
-            >
-              Message from LOSL-CON Team
-            </Heading>
-
-            <Text
-              style={{
-                color: colors.mutedForeground,
-                marginTop: 4,
-                fontSize: 14,
-              }}
-            >
-              LOSL-CON 2025
-            </Text>
-
-            <Hr style={{ borderColor: colors.border, margin: "20px 0" }} />
-
-            <Text style={{ fontSize: 16, lineHeight: 1.6, marginBottom: 20 }}>
-              Hi <strong style={{ fontWeight: "600" }}>{name}</strong>,
-            </Text>
-
             <div style={{ marginBottom: 24 }}>
               <MarkdownMessage content={message} />
             </div>
 
             <Hr style={{ borderColor: colors.border, margin: "24px 0 20px" }} />
-
-            <Text
-              style={{
-                fontSize: 15,
-                color: colors.mutedForeground,
-                fontWeight: "500",
-                margin: 0,
-              }}
-            >
-              Best regards,
-              <br />
-              <span style={{ color: colors.foreground, fontWeight: "600" }}>
-                The LOSL-CON Team
-              </span>
-            </Text>
           </Section>
 
           <Text
