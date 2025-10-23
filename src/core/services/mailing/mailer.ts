@@ -1,7 +1,6 @@
 import { getEnv } from "@/lib/env";
 import { render } from "@react-email/render";
 import * as nodemailer from "nodemailer";
-import type React from "react";
 import { createElement, type ComponentType } from "react";
 import { z } from "zod";
 
