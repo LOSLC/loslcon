@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Stagger, Item } from "@/components/ui/reveal";
 import { motion } from "framer-motion";
 import { Calendar, MapPin, Clock, Star, Gift, Users2 } from "lucide-react";
+import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 
-export function Join() {
+export function Join({ registrationsOpen = true }: { registrationsOpen?: boolean }) {
   return (
     <section className="relative py-24 bg-gradient-to-b from-background to-muted/30 overflow-hidden">
       {/* Subtle background accents to match other sections */}
@@ -134,31 +135,38 @@ export function Join() {
                 {/* Call to Action */}
                 <div className="space-y-4">
                   <div className="flex flex-wrap items-center gap-3">
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Button size="lg" className="font-semibold px-6">
-                        <a href="/register" className="flex items-center gap-2">
-                          <Star className="h-4 w-4" />
-                          <span data-i18n="join.ctaPrimary">
-                            S&#39;inscrire maintenant
-                          </span>
-                        </a>
-                      </Button>
-                    </motion.div>
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Button size="lg" variant="secondary" className="px-6">
-                        <a href="/tickets">
-                          <span data-i18n="join.ctaSecondary">
-                            Voir les tickets
-                          </span>
-                        </a>
-                      </Button>
-                    </motion.div>
+                    {registrationsOpen ? (
+                      <>
+                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                          <Button size="lg" className="font-semibold px-6">
+                            <a href="/register" className="flex items-center gap-2">
+                              <Star className="h-4 w-4" />
+                              <span data-i18n="join.ctaPrimary">S&#39;inscrire maintenant</span>
+                            </a>
+                          </Button>
+                        </motion.div>
+                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                          <Button size="lg" variant="secondary" className="px-6">
+                            <a href="/tickets">
+                              <span data-i18n="join.ctaSecondary">Voir les tickets</span>
+                            </a>
+                          </Button>
+                        </motion.div>
+                      </>
+                    ) : (
+                      <>
+                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                          <ContactHoverCard />
+                        </motion.div>
+                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                          <Button size="lg" variant="secondary" className="px-6">
+                            <a href="/devenir-sponsor">
+                              <span data-i18n="tickets.cta.sponsor">Become a Sponsor</span>
+                            </a>
+                          </Button>
+                        </motion.div>
+                      </>
+                    )}
                   </div>
                   <p
                     className="text-sm text-muted-foreground"
@@ -236,5 +244,34 @@ export function Join() {
         </Stagger>
       </div>
     </section>
+  );
+}
+
+function ContactHoverCard() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button size="lg" className="font-semibold px-6" variant="default">
+          <span data-i18n="common.contactUs">Contact us</span>
+        </Button>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-72">
+        <div className="space-y-2">
+          <div className="text-sm font-semibold" data-i18n="common.contactUs">Contact us</div>
+          <ul className="text-sm space-y-1">
+            <li>
+              <a href="https://wa.me/22879633874" target="_blank" rel="noreferrer" className="underline">
+                <span data-i18n="common.channels.whatsapp">WhatsApp</span>: +22879633874
+              </a>
+            </li>
+            <li>
+              <a href="mailto:community@loslc.tech" className="underline">
+                <span data-i18n="common.channels.email">Email</span>: community@loslc.tech
+              </a>
+            </li>
+          </ul>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
   );
 }

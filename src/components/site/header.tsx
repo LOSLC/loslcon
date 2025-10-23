@@ -13,9 +13,10 @@ import { Navbar } from "./navbar";
 
 type HeaderProps = {
   isLoggedIn?: boolean;
+  registrationsOpen?: boolean;
 };
 
-export function Header({ isLoggedIn = false }: HeaderProps) {
+export function Header({ isLoggedIn = false, registrationsOpen = true }: HeaderProps) {
   const [navBg, setNavBg] = useState(false);
 
   useEffect(() => {
@@ -56,16 +57,16 @@ export function Header({ isLoggedIn = false }: HeaderProps) {
         </div>
 
   {/* Desktop nav */}
-  <Navbar isLoggedIn={isLoggedIn} />
+  <Navbar isLoggedIn={isLoggedIn} registrationsOpen={registrationsOpen} />
 
         {/* Mobile nav trigger */}
-        <MobileNav isLoggedIn={isLoggedIn} />
+  <MobileNav isLoggedIn={isLoggedIn} registrationsOpen={registrationsOpen} />
       </div>
     </header>
   );
 }
 
-function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+function MobileNav({ isLoggedIn = false, registrationsOpen = true }: { isLoggedIn?: boolean; registrationsOpen?: boolean }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -87,10 +88,12 @@ function MobileNav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   }, [mounted]);
 
   const mobileLinks: Array<{ href: string; key: string; fallback: string; target?: string }> = [
-    { href: "/tickets", key: "nav.tickets", fallback: "Tickets" },
+    ...(registrationsOpen ? [{ href: "/tickets", key: "nav.tickets", fallback: "Tickets" }] : []),
     ...(isLoggedIn
       ? [{ href: "/admin/dashboard", key: "nav.dashboard", fallback: "Dashboard" }]
-      : [{ href: "/register", key: "nav.register", fallback: "Register" }]),
+      : registrationsOpen
+        ? [{ href: "/register", key: "nav.register", fallback: "Register" }]
+        : []),
     { href: "/devenir-sponsor", key: "nav.sponsor", fallback: "Devenir sponsor" },
     { href: LINKS.home, key: "nav.home", fallback: "LOSL-C Home", target: "_blank" },
     { href: LINKS.community, key: "nav.joinCommunity", fallback: "Rejoindre la communauté", target: "_blank" },

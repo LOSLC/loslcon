@@ -1,4 +1,4 @@
-import { getTickets, register } from "@/app/actions/loslcon/loslcon";
+import { getTickets, register, getRegistrationsConfig } from "@/app/actions/loslcon/loslcon";
 import { redirect } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +18,8 @@ export const dynamic = "force-dynamic";
 export default async function EventRegistrationPage({
   searchParams,
 }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const config = await getRegistrationsConfig();
+  const registrationsOpen = !!config?.registrationsOpen;
   const tickets = await getTickets();
   const sp = await searchParams;
   const msg = typeof sp.message === "string" ? sp.message : undefined;
@@ -62,6 +64,26 @@ export default async function EventRegistrationPage({
     }
   }
 
+  if (!registrationsOpen) {
+    return (
+      <main className="container mx-auto px-4 py-12">
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="text-3xl font-bold">
+            <span data-i18n="hero.closed">Registrations are closed</span>
+          </h1>
+          <p className="mt-2 text-muted-foreground" data-i18n="register.subtitle">
+            Secure your spot at the premier open-source conference in Lomé. Fill out your details and choose a ticket.
+          </p>
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <ContactHoverCard />
+            <a href="/devenir-sponsor" className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-accent/10 transition-colors" data-i18n="tickets.cta.sponsor">
+              Become a Sponsor
+            </a>
+          </div>
+        </div>
+      </main>
+    );
+  }
   return (
     <main className="relative">
       {/* Subtle background accents */}
@@ -234,5 +256,32 @@ export default async function EventRegistrationPage({
         </form>
       </section>
     </main>
+  );
+}
+
+function ContactHoverCard() {
+  return (
+    <div className="inline-block">
+      <div className="group relative">
+        <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors" data-i18n="common.contactUs">
+          Contact us
+        </button>
+        <div className="absolute left-1/2 top-full z-10 mt-2 w-72 -translate-x-1/2 rounded-md border bg-popover p-4 text-popover-foreground shadow-md opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity">
+          <div className="text-sm font-semibold" data-i18n="common.contactUs">Contact us</div>
+          <ul className="mt-2 text-sm space-y-1">
+            <li>
+              <a href="https://wa.me/22879633874" target="_blank" rel="noreferrer" className="underline">
+                <span data-i18n="common.channels.whatsapp">WhatsApp</span>: +22879633874
+              </a>
+            </li>
+            <li>
+              <a href="mailto:community@loslc.tech" className="underline">
+                <span data-i18n="common.channels.email">Email</span>: community@loslc.tech
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 }

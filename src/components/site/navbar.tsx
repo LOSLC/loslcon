@@ -9,16 +9,18 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 
-export function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+export function Navbar({ isLoggedIn = false, registrationsOpen = true }: { isLoggedIn?: boolean; registrationsOpen?: boolean }) {
   return (
     <div className="hidden md:flex w-full items-center justify-end gap-4">
       <NavigationMenu viewport={false}>
         <NavigationMenuList className="gap-1">
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild data-i18n="nav.tickets">
-              <Link href="/tickets">Tickets</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          {registrationsOpen && (
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild data-i18n="nav.tickets">
+                <Link href="/tickets">Tickets</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          )}
           <NavigationMenuItem>
             <NavigationMenuLink asChild data-i18n="nav.sponsor">
               <Link href="/devenir-sponsor">Devenir sponsor</Link>
@@ -43,9 +45,11 @@ export function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
           Dashboard
         </Link>
       ) : (
-        <Link href="/register" className="rounded-md px-3 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90" data-i18n="nav.register">
-          Register
-        </Link>
+        registrationsOpen ? (
+          <Link href="/register" className="rounded-md px-3 py-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90" data-i18n="nav.register">
+            Register
+          </Link>
+        ) : null
       )}
     </div>
   );
