@@ -7,6 +7,7 @@ import { DEFAULT_LOCALE } from "@/i18n/settings";
 import { AutoTranslate } from "@/components/i18n/auto-translate";
 import NextTopLoader from "nextjs-toploader";
 import { getCurrentUser } from "@/core/dal/session";
+import { getRegistrationsConfig } from "@/app/actions/loslcon/loslcon";
 
 const poppins = Poppins({
   variable: "--font-sans",
@@ -45,6 +46,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await getCurrentUser();
+  const config = await getRegistrationsConfig();
   return (
     <html lang={DEFAULT_LOCALE} className="dark">
       <head>
@@ -64,7 +66,7 @@ export default async function RootLayout({
           easing="ease"
         />
         <AutoTranslate />
-        <Header isLoggedIn={!!user} />
+        <Header isLoggedIn={!!user} registrationsOpen={!!config?.registrationsOpen} />
         {children}
         <Footer />
       </body>

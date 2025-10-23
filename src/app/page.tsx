@@ -4,16 +4,19 @@ import { Expect } from "@/components/sections/expect";
 import { Join } from "@/components/sections/join";
 import { Expo } from "@/components/sections/expo";
 import { Partners } from "@/components/sections/partners";
+import { getRegistrationsConfig } from "@/app/actions/loslcon/loslcon";
 
-export default function Home() {
+export default async function Home() {
+  const config = await getRegistrationsConfig();
+  const registrationsOpen = !!config?.registrationsOpen;
   return (
     <main>
-      <Hero />
+      <Hero registrationsOpen={registrationsOpen} />
       <About />
       <Expect />
       <Expo />
       <Partners />
-      <Join />
+      <Join registrationsOpen={registrationsOpen} />
     </main>
   );
 }

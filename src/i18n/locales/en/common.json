@@ -11,6 +11,7 @@
     "title": "LOSL-CON 2025",
     "subtitle": "Conference dedicated to cybersecurity, open source and Linux",
   "highlight": "Registrations are open",
+    "closed": "Registrations are closed",
     "cta": "Join the community",
     "date": "22 November 2025",
     "place": "Institut Français du Togo",
@@ -23,6 +24,13 @@
       "hours": "Hours",
       "minutes": "Minutes",
       "seconds": "Seconds"
+    }
+  },
+  "common": {
+    "contactUs": "Contact us",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "email": "Email"
     }
   },
   "about": {

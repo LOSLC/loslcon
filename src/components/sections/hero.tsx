@@ -40,14 +40,13 @@ function FlipUnit({
   );
 }
 
-export function Hero() {
-  // Event schedule (Africa/Lome ≈ UTC): assume 09:00–17:00 on Nov 22, 2025
-  // If timings change later, adjust these two lines only
+export function Hero({
+  registrationsOpen = true,
+}: { registrationsOpen?: boolean }) {
   const startTs = useMemo(() => Date.parse("2025-11-22T09:00:00Z"), []);
   const endTs = useMemo(() => Date.parse("2025-11-22T17:00:00Z"), []);
   const [now, setNow] = useState<number>(Date.now());
   const [mounted, setMounted] = useState(false);
-  // Memoized smooth random drift configs so animations don't reset each render
   const driftConfigs = useMemo(() => {
     const rnd = (min: number, max: number) => Math.random() * (max - min) + min;
     const ease: [number, number, number, number] = [0.42, 0, 0.58, 1];
@@ -92,7 +91,6 @@ export function Hero() {
   }, []);
   const reduceMotion = useReducedMotion();
 
-  // Tiny star dots background (static, lightweight)
   const starBgSmall = useMemo(() => {
     const parts: string[] = [];
     const count = 90;
@@ -127,10 +125,9 @@ export function Hero() {
   }, []);
 
   useEffect(() => {
-    // Resolve theme colors to browser-safe rgb() strings for canvas
     const root = getComputedStyle(document.documentElement);
     const getVar = (name: string, fb: string) =>
-      (root.getPropertyValue(name).trim() || fb);
+      root.getPropertyValue(name).trim() || fb;
     const resolveColor = (cssColor: string) => {
       const el = document.createElement("span");
       el.style.position = "absolute";
@@ -178,9 +175,6 @@ export function Hero() {
     setTimeout(shoot, 200);
   }, []);
 
-  // Confetti removed per request
-
-  // Derive phase and remaining time
   const beforeStart = now < startTs;
   const duringEvent = now >= startTs && now < endTs;
   const afterEnd = now >= endTs;
@@ -272,7 +266,9 @@ export function Hero() {
           <Item>
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ring-1 ring-white/30 backdrop-blur bg-gradient-to-r from-fuchsia-500/15 via-emerald-500/15 to-sky-500/15">
               <span data-i18n="hero.highlight" className="text-white">
-                Les inscriptions sont ouvertes
+                {registrationsOpen
+                  ? "Registrations are open!"
+                  : "Registrations are closed"}
               </span>
             </div>
           </Item>
