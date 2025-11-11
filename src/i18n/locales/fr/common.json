@@ -33,6 +33,23 @@
       "email": "Email"
     }
   },
+  "attendance": {
+    "title": "Confirme ta présence",
+    "subtitle": "L'événement approche ! Clique sur le bouton uniquement si tu es certain(e) de venir – cela nous aide à mieux préparer les places, badges et dépenses.",
+    "confirmButton": "Je confirme ma présence",
+    "alreadyConfirmed": "Tu as déjà confirmé ta présence !",
+    "thankYou": "Merci d'avoir confirmé !",
+    "error": "Impossible de confirmer. Veuillez réessayer.",
+    "emailSubject": "Confirme ta présence à LOSL-CON 2025",
+    "emailHeading": "Seras-tu des nôtres ?",
+    "emailBody": "L'événement approche ! Merci de confirmer ta présence pour nous permettre de mieux préparer les places, badges et dépenses.",
+    "emailButton": "Confirmer ma présence"
+  },
+  "admin": {
+    "sendAttendanceEmails": "Envoyer les emails de confirmation de présence",
+    "attendanceConfirmed": "Présence confirmée",
+    "emailsSent": "Emails envoyés à {count} participants"
+  },
   "about": {
     "badge": "Événement Tech 2025",
     "heading": "À propos de LOSL-CON 2025",

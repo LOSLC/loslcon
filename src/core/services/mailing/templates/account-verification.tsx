@@ -20,13 +20,13 @@ type AccountVerificationEmailProps = {
 };
 
 const colors = {
-	background: "oklch(0.9776 0.0144 224.4907)",
-	foreground: "oklch(0.2795 0.0368 260.031)",
-	card: "oklch(0.9549 0.0326 218.3841)",
-	border: "oklch(0.9217 0.026 259.0453)",
-	primary: "oklch(0.3851 0.0585 259.9056)",
-	primaryForeground: "oklch(0.9776 0.0144 224.4907)",
-	mutedForeground: "oklch(0.2749 0.0353 258.9107)",
+	background: "#f8f9fb",
+	foreground: "#1e293b",
+	card: "#f1f5f9",
+	border: "#e2e8f0",
+	primary: "#4338ca",
+	primaryForeground: "#f8f9fb",
+	mutedForeground: "#64748b",
 };
 
 const base = {

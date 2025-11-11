@@ -13,6 +13,7 @@ export const registrationsTable = pg.pgTable("registrations", {
     .notNull(),
   transaction_id: pg.varchar("transaction_id").unique(),
   confirmed: pg.boolean("confirmed").default(false).notNull(),
+  attendanceConfirmed: pg.boolean("attendance_confirmed").default(false).notNull(),
   attended: pg.boolean("attended").default(false).notNull(),
   createdAt: pg.timestamp("created_at").defaultNow().notNull(),
 });

@@ -13,15 +13,12 @@ import {
   Img,
 } from "@react-email/components";
 
-type TicketRegistrationSuccessfulProps = {
+type AttendanceConfirmationProps = {
   eventName: string;
   attendeeName: string;
-  ticketId: string;
-  ticketType: string;
   eventDate: string;
   eventLocation: string;
-  viewTicketUrl: string;
-  addToCalendarUrl?: string;
+  confirmUrl: string;
   supportEmail: string;
   appName: string;
   bannerUrl?: string;
@@ -43,19 +40,16 @@ const base = {
     "system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica Neue, Arial, Noto Sans, sans-serif",
 };
 
-export default function TicketRegistrationSuccessful({
+export default function AttendanceConfirmation({
   eventName,
   attendeeName,
-  ticketId,
-  ticketType,
   eventDate,
   eventLocation,
-  viewTicketUrl,
-  addToCalendarUrl,
+  confirmUrl,
   supportEmail,
   appName,
   bannerUrl,
-}: TicketRegistrationSuccessfulProps) {
+}: AttendanceConfirmationProps) {
   return (
     <Html>
       <Head />
@@ -98,9 +92,7 @@ export default function TicketRegistrationSuccessful({
                 textAlign: "center",
               }}
             >
-              🎉 You’re in!
-              <br />
-              Your ticket for {eventName} is confirmed
+              Seras-tu des nôtres ?
             </Heading>
             <Text
               style={{
@@ -110,10 +102,10 @@ export default function TicketRegistrationSuccessful({
                 textAlign: "center",
               }}
             >
-              Hey {attendeeName}, we can’t wait to see you there.
+              Salut {attendeeName}
             </Text>
 
-            {/* Ticket details card */}
+            {/* Event reminder */}
             <Section
               style={{
                 backgroundColor: colors.background,
@@ -125,15 +117,14 @@ export default function TicketRegistrationSuccessful({
             >
               <Text
                 style={{
-                  fontSize: 14,
-                  margin: 0,
-                  color: colors.mutedForeground,
+                  fontSize: 15,
+                  margin: "0 0 16px",
+                  lineHeight: 1.6,
                 }}
               >
-                Ticket Type
-              </Text>
-              <Text style={{ fontWeight: 600, margin: "2px 0 12px" }}>
-                {ticketType}
+                L&apos;événement <strong>{eventName}</strong> approche ! Merci de
+                confirmer ta présence pour nous permettre de mieux préparer les
+                places, badges et dépenses.
               </Text>
 
               <Text
@@ -143,49 +134,30 @@ export default function TicketRegistrationSuccessful({
                   color: colors.mutedForeground,
                 }}
               >
-                Ticket ID
+                Quand
               </Text>
-              <Text
-                style={{
-                  margin: "2px 0 12px",
-                  fontFamily:
-                    'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-                }}
-              >
-                {ticketId}
+              <Text style={{ margin: "2px 0 12px", fontWeight: 600 }}>
+                {eventDate}
               </Text>
 
               <Text
                 style={{
                   fontSize: 14,
-                  fontWeight: "bold",
-                  borderBottom: `1px solid ${colors.border}`,
                   margin: 0,
                   color: colors.mutedForeground,
                 }}
               >
-                When
+                Où
               </Text>
-              <Text style={{ margin: "2px 0 12px" }}>{eventDate}</Text>
-
-              <Text
-                style={{
-                  fontSize: 14,
-                  margin: 0,
-                  fontWeight: "bold",
-                  borderBottom: `1px solid ${colors.border}`,
-                  color: colors.mutedForeground,
-                }}
-              >
-                Where
+              <Text style={{ margin: "2px 0 4px", fontWeight: 600 }}>
+                {eventLocation}
               </Text>
-              <Text style={{ margin: "2px 0 4px" }}>{eventLocation}</Text>
             </Section>
 
             {/* CTA */}
             <Section style={{ textAlign: "center", marginTop: 28 }}>
               <Button
-                href={viewTicketUrl}
+                href={confirmUrl}
                 style={{
                   backgroundColor: colors.primary,
                   color: colors.primaryForeground,
@@ -197,29 +169,14 @@ export default function TicketRegistrationSuccessful({
                   fontSize: 15,
                 }}
               >
-                View my ticket
+                Confirmer ma présence
               </Button>
-              {addToCalendarUrl && (
-                <div>
-                  <Link
-                    href={addToCalendarUrl}
-                    style={{
-                      color: colors.secondary,
-                      display: "inline-block",
-                      marginTop: 14,
-                      fontSize: 14,
-                    }}
-                  >
-                    + Add to calendar
-                  </Link>
-                </div>
-              )}
             </Section>
 
             <Hr style={{ borderColor: colors.border, margin: "28px 0" }} />
 
             <Text style={{ fontSize: 14, color: colors.mutedForeground }}>
-              Need help? Contact us at{" "}
+              Besoin d&apos;aide ? Contacte-nous à{" "}
               <Link
                 href={`mailto:${supportEmail}`}
                 style={{ color: colors.primary }}

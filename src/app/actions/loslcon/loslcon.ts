@@ -577,7 +577,9 @@ export async function setTicketSoldout(form: FormData) {
     .update(ticketsTable)
     .set({ soldout: parsed.data.soldout })
     .where(eq(ticketsTable.id, parsed.data.id));
-  return { message: parsed.data.soldout ? "Marked sold out." : "Marked available." } as const;
+  return {
+    message: parsed.data.soldout ? "Marked sold out." : "Marked available.",
+  } as const;
 }
 
 // Admin: registration detail and attendance toggle
@@ -654,4 +656,72 @@ export async function deleteRegistration(form: FormData) {
   if (!id) return { error: "Missing registration id" } as const;
   await db.delete(registrationsTable).where(eq(registrationsTable.id, id));
   return { message: "Registration deleted." } as const;
+}
+
+// Attendance confirmation
+export async function confirmAttendance(registrationId: string) {
+  const [reg] = await db
+    .select()
+    .from(registrationsTable)
+    .where(eq(registrationsTable.id, registrationId))
+    .limit(1);
+
+  if (!reg) return { error: "Registration not found." } as const;
+  if (!reg.confirmed)
+    return { error: "Registration not confirmed yet." } as const;
+  if (reg.attendanceConfirmed) return { alreadyConfirmed: true } as const;
+
+  await db
+    .update(registrationsTable)
+    .set({ attendanceConfirmed: true })
+    .where(eq(registrationsTable.id, registrationId));
+
+  return { success: true } as const;
+}
+
+// Admin: send attendance confirmation emails
+export async function broadcastAttendanceConfirmation() {
+  const user = await getCurrentUser();
+  if (!user || user.accessLevel > 0) {
+    return { error: "Unauthorized" } as const;
+  }
+
+  const regs = await db
+    .select()
+    .from(registrationsTable)
+    .where(eq(registrationsTable.confirmed, true));
+
+  let sent = 0;
+  for (const r of regs) {
+    const confirmUrl = `${appConfig.appBaseUrl}/confirm/${r.id}`;
+    try {
+      await sendEmail({
+        from: { email: appConfig.appEmail, name: appConfig.appName },
+        to: r.email,
+        subject: "Confirme ta présence à LOSL-CON 2025",
+        component: (
+          await import(
+            "@/core/services/mailing/templates/attendance-confirmation"
+          )
+        ).default,
+        props: {
+          eventName: "LOSL-CON 2025",
+          attendeeName: `${r.firstname.split(" ")[0]}`.trim(),
+          eventDate: "22 novembre 2025",
+          eventLocation: "Institut Français du Togo, Lomé",
+          confirmUrl,
+          supportEmail: appConfig.supportEmail || appConfig.appEmail,
+          appName: appConfig.appName,
+        },
+      });
+      sent++;
+    } catch (e) {
+      console.error(`Failed to send attendance email to ${r.email}:`, e);
+    }
+  }
+
+  return {
+    message: `Attendance emails sent to ${sent} attendees.`,
+    count: sent,
+  } as const;
 }

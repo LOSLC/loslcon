@@ -1,0 +1,1 @@
+ALTER TABLE "registrations" ADD COLUMN "attendance_confirmed" boolean DEFAULT false NOT NULL;
