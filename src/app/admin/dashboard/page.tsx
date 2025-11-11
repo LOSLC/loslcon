@@ -1,14 +1,29 @@
-import { createTicket, getRegistrationsConfig, getTickets } from "@/app/actions/loslcon/loslcon";
+import {
+  createTicket,
+  getRegistrationsConfig,
+  getTickets,
+} from "@/app/actions/loslcon/loslcon";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/core/dal/session";
-import { listConnectedUsers, listRegistrations } from "@/core/dal/admin";
+import {
+  listConnectedUsers,
+  listRegistrations,
+  countRegistrations,
+} from "@/core/dal/admin";
 import { RegistrationSearch } from "../../../components/admin/registration-search";
 import { Button } from "@/components/ui/button";
 import { RegistrationSettingsForm } from "@/components/admin/registration-settings-form";
 import { BroadcastForm } from "@/components/admin/dashboard/broadcast-form";
-import { SummaryStats, PerTicketTable } from "@/components/admin/dashboard/stats";
+import { AttendanceBroadcast } from "@/components/admin/dashboard/attendance-broadcast";
+import {
+  SummaryStats,
+  PerTicketTable,
+} from "@/components/admin/dashboard/stats";
 import { TicketsGrid } from "@/components/admin/dashboard/tickets";
-import { ConnectedUsersTable, RegistrationsTable } from "@/components/admin/dashboard/users-and-registrations";
+import {
+  ConnectedUsersTable,
+  RegistrationsTable,
+} from "@/components/admin/dashboard/users-and-registrations";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
@@ -38,23 +53,36 @@ export default async function AdminDashboardPage({
     redirect("/auth/login");
   }
 
-  const [sessions, regs, config, tickets] = await Promise.all([
-    listConnectedUsers(),
-    listRegistrations(),
-    getRegistrationsConfig(),
-    getTickets(),
-  ]);
+  const sp = (await searchParams) ?? {};
+  const page = parseInt(
+    (Array.isArray(sp.page) ? sp.page[0] : sp.page) || "1",
+    10,
+  );
+  const perPage = 25;
 
-  const regsCsv = toCsv(regs);
+  const [sessions, regs, allRegs, totalCount, config, tickets] =
+    await Promise.all([
+      listConnectedUsers(),
+      listRegistrations({ page, perPage }),
+      listRegistrations({ page: 1, perPage: 10000 }), // Get all for stats
+      countRegistrations(),
+      getRegistrationsConfig(),
+      getTickets(),
+    ]);
+
+  const totalPages = Math.ceil(totalCount / perPage);
+
+  const regsCsv = toCsv(allRegs);
   const sessionsCsv = toCsv(sessions);
 
-  // Stats
-  const totalRegs = regs.length;
-  const confirmedRegs = regs.filter((r) => r.confirmed).length;
+  // Stats (calculated from all registrations, not just current page)
+  const totalRegs = allRegs.length;
+  const confirmedRegs = allRegs.filter((r) => r.confirmed).length;
   const unconfirmedRegs = totalRegs - confirmedRegs;
-  const attendedRegs = regs.filter((r) => r.attended).length;
+  const attendedRegs = allRegs.filter((r) => r.attended).length;
+  const attendanceConfirmedRegs = allRegs.filter((r) => r.attendanceConfirmed).length;
   const perTicket = tickets.map((t) => {
-    const rs = regs.filter((r) => r.ticket_id === t.id);
+    const rs = allRegs.filter((r) => r.ticket_id === t.id);
     const total = rs.length;
     const confirmed = rs.filter((r) => r.confirmed).length;
     const unconfirmed = total - confirmed;
@@ -63,9 +91,8 @@ export default async function AdminDashboardPage({
   });
 
   // Fuzzy-ish search (case-insensitive substring across multiple fields)
-  const sp = (await searchParams) ?? {};
   const qRaw = sp.q;
-  const q = (Array.isArray(qRaw) ? qRaw.join(" ") : qRaw ?? "")
+  const q = (Array.isArray(qRaw) ? qRaw.join(" ") : (qRaw ?? ""))
     .toString()
     .trim()
     .toLowerCase();
@@ -90,7 +117,8 @@ export default async function AdminDashboardPage({
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
 
-  <BroadcastForm />
+      <BroadcastForm />
+      <AttendanceBroadcast />
 
       {/* Stats */}
       <section className="mt-6 grid gap-4">
@@ -99,6 +127,7 @@ export default async function AdminDashboardPage({
           confirmedRegs={confirmedRegs}
           unconfirmedRegs={unconfirmedRegs}
           attendedRegs={attendedRegs}
+          attendanceConfirmedRegs={attendanceConfirmedRegs}
         />
         <PerTicketTable perTicket={perTicket} />
       </section>
@@ -177,15 +206,20 @@ export default async function AdminDashboardPage({
         />
       </section>
 
-  <TicketsGrid tickets={tickets} />
+      <TicketsGrid tickets={tickets} />
 
-  <ConnectedUsersTable sessions={sessions} />
+      <ConnectedUsersTable sessions={sessions} />
 
       {/* Registrations search + table */}
       <div className="mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <RegistrationSearch />
       </div>
-      <RegistrationsTable registrations={filteredRegs} tickets={tickets} />
+      <RegistrationsTable
+        registrations={filteredRegs}
+        tickets={tickets}
+        currentPage={page}
+        totalPages={totalPages}
+      />
     </main>
   );
 }

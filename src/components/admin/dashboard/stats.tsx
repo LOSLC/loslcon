@@ -1,14 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-export function SummaryStats({ totalRegs, confirmedRegs, unconfirmedRegs, attendedRegs }: {
+export function SummaryStats({ totalRegs, confirmedRegs, unconfirmedRegs, attendedRegs, attendanceConfirmedRegs }: {
   totalRegs: number;
   confirmedRegs: number;
   unconfirmedRegs: number;
   attendedRegs: number;
+  attendanceConfirmedRegs: number;
 }) {
   return (
-  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm">Total registrations</CardTitle>
@@ -26,6 +27,12 @@ export function SummaryStats({ totalRegs, confirmedRegs, unconfirmedRegs, attend
           <CardTitle className="text-sm">Unconfirmed</CardTitle>
         </CardHeader>
         <CardContent className="text-3xl font-bold text-amber-500">{unconfirmedRegs.toLocaleString()}</CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Will Attend</CardTitle>
+        </CardHeader>
+        <CardContent className="text-3xl font-bold text-purple-500">{attendanceConfirmedRegs.toLocaleString()}</CardContent>
       </Card>
       <Card>
         <CardHeader className="pb-2">
