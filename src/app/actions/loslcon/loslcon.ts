@@ -689,7 +689,12 @@ export async function broadcastAttendanceConfirmation() {
   const regs = await db
     .select()
     .from(registrationsTable)
-    .where(eq(registrationsTable.confirmed, true));
+    .where(
+      and(
+        eq(registrationsTable.confirmed, true),
+        eq(registrationsTable.attendanceConfirmed, false),
+      ),
+    );
 
   const AttendanceConfirmationEmail = (
     await import("@/core/services/mailing/templates/attendance-confirmation")
@@ -718,7 +723,10 @@ export async function broadcastAttendanceConfirmation() {
               },
             });
           } catch (error) {
-            console.error(`Failed to send attendance email to ${r.email}:`, error);
+            console.error(
+              `Failed to send attendance email to ${r.email}:`,
+              error,
+            );
           }
           resolve();
         },
