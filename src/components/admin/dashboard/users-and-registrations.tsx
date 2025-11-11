@@ -45,9 +45,24 @@ export function ConnectedUsersTable({ sessions }: { sessions: Array<{ sessionId:
 export function RegistrationsTable({
   registrations,
   tickets,
+  currentPage = 1,
+  totalPages = 1,
 }: {
-  registrations: Array<{ id: string; firstname: string; lastname: string; email: string; phone_number: string; ticket_id: string; confirmed: boolean; attended: boolean; createdAt: string | number | Date }>;
+  registrations: Array<{ 
+    id: string; 
+    firstname: string; 
+    lastname: string; 
+    email: string; 
+    phone_number: string; 
+    ticket_id: string; 
+    confirmed: boolean; 
+    attended: boolean;
+    attendanceConfirmed: boolean;
+    createdAt: string | number | Date 
+  }>;
   tickets: Array<{ id: string; name: string; price: number }>;
+  currentPage?: number;
+  totalPages?: number;
 }) {
   return (
     <section className="mt-10">
@@ -61,7 +76,7 @@ export function RegistrationsTable({
         </a>
       </div>
       <div className="overflow-x-auto">
-        <Table className="min-w-[900px]">
+        <Table className="min-w-[1000px]">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
@@ -70,6 +85,7 @@ export function RegistrationsTable({
               <TableHead>Ticket</TableHead>
               <TableHead>Confirmed</TableHead>
               <TableHead>Attended</TableHead>
+              <TableHead>Will Attend</TableHead>
               <TableHead>Date</TableHead>
               <TableHead className="sr-only">Actions</TableHead>
             </TableRow>
@@ -85,6 +101,13 @@ export function RegistrationsTable({
                 <TableCell className="font-mono text-xs">{r.ticket_id}</TableCell>
                 <TableCell>{r.confirmed ? "Yes" : "No"}</TableCell>
                 <TableCell>{r.attended ? "Yes" : "No"}</TableCell>
+                <TableCell>
+                  {r.attendanceConfirmed ? (
+                    <span className="text-emerald-600 dark:text-emerald-400 font-medium">✓ Yes</span>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </TableCell>
                 <TableCell>{new Date(r.createdAt).toLocaleString()}</TableCell>
                 <TableCell className="text-right">
                   <details className="inline-block text-left">
@@ -132,6 +155,25 @@ export function RegistrationsTable({
           </TableBody>
         </Table>
       </div>
+      
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-4 flex items-center justify-center gap-2">
+          {currentPage > 1 && (
+            <Link href={`?page=${currentPage - 1}`}>
+              <Button variant="outline" size="sm">Previous</Button>
+            </Link>
+          )}
+          <span className="text-sm text-muted-foreground">
+            Page {currentPage} of {totalPages}
+          </span>
+          {currentPage < totalPages && (
+            <Link href={`?page=${currentPage + 1}`}>
+              <Button variant="outline" size="sm">Next</Button>
+            </Link>
+          )}
+        </div>
+      )}
     </section>
   );
 }
