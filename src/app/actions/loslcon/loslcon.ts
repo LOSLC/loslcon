@@ -691,37 +691,47 @@ export async function broadcastAttendanceConfirmation() {
     .from(registrationsTable)
     .where(eq(registrationsTable.confirmed, true));
 
-  let sent = 0;
-  for (const r of regs) {
+  const AttendanceConfirmationEmail = (
+    await import("@/core/services/mailing/templates/attendance-confirmation")
+  ).default;
+
+  // Send emails asynchronously with delays
+  const emailPromises = regs.map((r, i) => {
     const confirmUrl = `${appConfig.appBaseUrl}/confirm/${r.id}`;
-    try {
-      await sendEmail({
-        from: { email: appConfig.appEmail, name: appConfig.appName },
-        to: r.email,
-        subject: "Confirme ta présence à LOSL-CON 2025",
-        component: (
-          await import(
-            "@/core/services/mailing/templates/attendance-confirmation"
-          )
-        ).default,
-        props: {
-          eventName: "LOSL-CON 2025",
-          attendeeName: `${r.firstname.split(" ")[0]}`.trim(),
-          eventDate: "22 novembre 2025",
-          eventLocation: "Institut Français du Togo, Lomé",
-          confirmUrl,
-          supportEmail: appConfig.supportEmail || appConfig.appEmail,
-          appName: appConfig.appName,
+    return new Promise<void>((resolve) => {
+      setTimeout(
+        async () => {
+          try {
+            await sendEmail({
+              from: { email: appConfig.appEmail, name: appConfig.appName },
+              to: r.email,
+              subject: "Confirme ta présence à LOSL-CON 2025",
+              component: AttendanceConfirmationEmail,
+              props: {
+                eventName: "LOSL-CON 2025",
+                attendeeName: `${r.firstname.split(" ")[0]}`.trim(),
+                eventDate: "22 novembre 2025",
+                eventLocation: "Institut Français du Togo, Lomé",
+                confirmUrl,
+                supportEmail: appConfig.supportEmail || appConfig.appEmail,
+                appName: appConfig.appName,
+              },
+            });
+          } catch (error) {
+            console.error(`Failed to send attendance email to ${r.email}:`, error);
+          }
+          resolve();
         },
-      });
-      sent++;
-    } catch (e) {
-      console.error(`Failed to send attendance email to ${r.email}:`, e);
-    }
-  }
+        5000 * (i + 1),
+      );
+    });
+  });
+
+  // Wait for all emails to be queued
+  await Promise.all(emailPromises);
 
   return {
-    message: `Attendance emails sent to ${sent} attendees.`,
-    count: sent,
+    message: `Attendance emails queued to ${regs.length} attendees.`,
+    count: regs.length,
   } as const;
 }

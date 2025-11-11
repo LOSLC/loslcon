@@ -61,24 +61,24 @@ export default function AttendanceConfirmation({
           ...base,
         }}
       >
-        <Container style={{ maxWidth: 560, margin: "0 auto", padding: 24 }}>
+        <Container style={{ maxWidth: 560, margin: "0 auto", padding: "16px" }}>
           <Section
             style={{
               backgroundColor: colors.card,
               border: `1px solid ${colors.border}`,
-              borderRadius: 24,
-              padding: 32,
+              borderRadius: 16,
+              padding: "20px 16px",
               color: colors.foreground,
               boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
             }}
           >
             {bannerUrl && (
-              <Section style={{ textAlign: "center", marginBottom: 24 }}>
+              <Section style={{ textAlign: "center", marginBottom: 16 }}>
                 <Img
                   src={bannerUrl}
                   alt={eventName}
                   width={512}
-                  style={{ maxWidth: "100%", borderRadius: 16 }}
+                  style={{ maxWidth: "100%", borderRadius: 12 }}
                 />
               </Section>
             )}
@@ -86,9 +86,9 @@ export default function AttendanceConfirmation({
             <Heading
               style={{
                 margin: 0,
-                fontSize: 26,
+                fontSize: 24,
                 fontWeight: 700,
-                lineHeight: 1.4,
+                lineHeight: 1.3,
                 textAlign: "center",
               }}
             >
@@ -97,7 +97,7 @@ export default function AttendanceConfirmation({
             <Text
               style={{
                 color: colors.mutedForeground,
-                marginTop: 12,
+                marginTop: 8,
                 fontSize: 15,
                 textAlign: "center",
               }}
@@ -110,16 +110,16 @@ export default function AttendanceConfirmation({
               style={{
                 backgroundColor: colors.background,
                 border: `1px solid ${colors.border}`,
-                borderRadius: 16,
-                padding: "20px 24px",
-                marginTop: 28,
+                borderRadius: 12,
+                padding: "16px",
+                marginTop: 20,
               }}
             >
               <Text
                 style={{
                   fontSize: 15,
-                  margin: "0 0 16px",
-                  lineHeight: 1.6,
+                  margin: "0 0 12px",
+                  lineHeight: 1.5,
                 }}
               >
                 L&apos;événement <strong>{eventName}</strong> approche ! Merci de
@@ -129,40 +129,40 @@ export default function AttendanceConfirmation({
 
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 13,
                   margin: 0,
                   color: colors.mutedForeground,
                 }}
               >
                 Quand
               </Text>
-              <Text style={{ margin: "2px 0 12px", fontWeight: 600 }}>
+              <Text style={{ margin: "2px 0 10px", fontWeight: 600, fontSize: 15 }}>
                 {eventDate}
               </Text>
 
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 13,
                   margin: 0,
                   color: colors.mutedForeground,
                 }}
               >
                 Où
               </Text>
-              <Text style={{ margin: "2px 0 4px", fontWeight: 600 }}>
+              <Text style={{ margin: "2px 0 0", fontWeight: 600, fontSize: 15 }}>
                 {eventLocation}
               </Text>
             </Section>
 
             {/* CTA */}
-            <Section style={{ textAlign: "center", marginTop: 28 }}>
+            <Section style={{ textAlign: "center", marginTop: 20 }}>
               <Button
                 href={confirmUrl}
                 style={{
                   backgroundColor: colors.primary,
                   color: colors.primaryForeground,
-                  padding: "14px 24px",
-                  borderRadius: 14,
+                  padding: "12px 20px",
+                  borderRadius: 12,
                   textDecoration: "none",
                   display: "inline-block",
                   fontWeight: 600,
@@ -173,9 +173,9 @@ export default function AttendanceConfirmation({
               </Button>
             </Section>
 
-            <Hr style={{ borderColor: colors.border, margin: "28px 0" }} />
+            <Hr style={{ borderColor: colors.border, margin: "20px 0" }} />
 
-            <Text style={{ fontSize: 14, color: colors.mutedForeground }}>
+            <Text style={{ fontSize: 13, color: colors.mutedForeground, margin: 0 }}>
               Besoin d&apos;aide ? Contacte-nous à{" "}
               <Link
                 href={`mailto:${supportEmail}`}
@@ -191,8 +191,8 @@ export default function AttendanceConfirmation({
             style={{
               textAlign: "center",
               color: colors.mutedForeground,
-              fontSize: 12,
-              marginTop: 20,
+              fontSize: 11,
+              marginTop: 12,
             }}
           >
             © {new Date().getFullYear()} {appName}
