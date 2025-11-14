@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Calendar, MapPin, Loader2 } from "lucide-react";
+import { CheckCircle, Calendar, MapPin, Loader2, XCircle } from "lucide-react";
 import { confirmAttendance } from "@/app/actions/loslcon/loslcon";
 import { ensureI18n } from "@/i18n/config";
 
@@ -17,6 +17,9 @@ export default function AttendanceConfirmationPage({
   const [confirmed, setConfirmed] = useState(false);
   const [alreadyConfirmed, setAlreadyConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Set to true to close attendance confirmations
+  const isClosed = true;
 
   useEffect(() => {
     params.then((p) => setRegistrationId(p.registrationId));
@@ -24,7 +27,7 @@ export default function AttendanceConfirmationPage({
   }, [params]);
 
   const handleConfirm = async () => {
-    if (!registrationId) return;
+    if (!registrationId || isClosed) return;
     setLoading(true);
     setError(null);
     try {
@@ -67,7 +70,14 @@ export default function AttendanceConfirmationPage({
           <Card className="bg-card/50 border-border/50 backdrop-blur">
             <CardHeader>
               <CardTitle className="text-center">
-                {confirmed || alreadyConfirmed ? (
+                {isClosed ? (
+                  <div className="flex items-center justify-center gap-2 text-amber-600 dark:text-amber-400">
+                    <XCircle className="h-6 w-6" />
+                    <span data-i18n="attendance.closed">
+                      Les confirmations de présence sont fermées
+                    </span>
+                  </div>
+                ) : confirmed || alreadyConfirmed ? (
                   <div className="flex items-center justify-center gap-2 text-emerald-600 dark:text-emerald-400">
                     <CheckCircle className="h-6 w-6" />
                     <span data-i18n={alreadyConfirmed ? "attendance.alreadyConfirmed" : "attendance.thankYou"}>
@@ -78,7 +88,11 @@ export default function AttendanceConfirmationPage({
                   <span data-i18n="attendance.title">Confirme ta présence</span>
                 )}
               </CardTitle>
-              {!confirmed && !alreadyConfirmed && (
+              {isClosed ? (
+                <CardDescription className="text-center text-base leading-relaxed pt-2" data-i18n="attendance.closedMessage">
+                  La date limite pour confirmer ta présence est passée. Si tu as des questions, contacte-nous.
+                </CardDescription>
+              ) : !confirmed && !alreadyConfirmed && (
                 <CardDescription className="text-center text-base leading-relaxed pt-2" data-i18n="attendance.subtitle">
                   L&#39;événement approche ! Clique sur le bouton uniquement si tu es certain(e) de venir – cela nous aide à mieux préparer les places, badges et dépenses.
                 </CardDescription>
@@ -106,14 +120,14 @@ export default function AttendanceConfirmationPage({
               </div>
 
               {/* Error message */}
-              {error && (
+              {error && !isClosed && (
                 <div className="rounded-lg border border-red-200 bg-red-50/80 px-4 py-3 text-sm text-red-900 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-200">
                   {error}
                 </div>
               )}
 
               {/* Action button */}
-              {!confirmed && !alreadyConfirmed && (
+              {!isClosed && !confirmed && !alreadyConfirmed && (
                 <Button
                   onClick={handleConfirm}
                   disabled={loading}
@@ -132,7 +146,7 @@ export default function AttendanceConfirmationPage({
               )}
 
               {/* Success message */}
-              {(confirmed || alreadyConfirmed) && (
+              {!isClosed && (confirmed || alreadyConfirmed) && (
                 <div className="rounded-lg border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-200 text-center">
                   ✅ Nous avons bien enregistré ta confirmation. À très bientôt !
                 </div>

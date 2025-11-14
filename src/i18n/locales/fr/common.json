@@ -40,6 +40,8 @@
     "alreadyConfirmed": "Tu as déjà confirmé ta présence !",
     "thankYou": "Merci d'avoir confirmé !",
     "error": "Impossible de confirmer. Veuillez réessayer.",
+    "closed": "Les confirmations de présence sont fermées",
+    "closedMessage": "La date limite pour confirmer ta présence est passée. Si tu as des questions, contacte-nous.",
     "emailSubject": "Confirme ta présence à LOSL-CON 2025",
     "emailHeading": "Seras-tu des nôtres ?",
     "emailBody": "L'événement approche ! Merci de confirmer ta présence pour nous permettre de mieux préparer les places, badges et dépenses.",
