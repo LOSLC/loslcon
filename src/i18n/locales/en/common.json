@@ -40,6 +40,8 @@
     "alreadyConfirmed": "You have already confirmed your attendance!",
     "thankYou": "Thank you for confirming!",
     "error": "Unable to confirm attendance. Please try again.",
+    "closed": "Attendance confirmations are closed",
+    "closedMessage": "The deadline for confirming attendance has passed. If you have any questions, please contact us.",
     "emailSubject": "Confirm your attendance at LOSL-CON 2025",
     "emailHeading": "Will you be joining us?",
     "emailBody": "The event is approaching! Please confirm your attendance so we can better prepare seating, badges, and expenses.",
