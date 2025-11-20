@@ -4,7 +4,7 @@ import {
   registrationsTable,
   usersTable,
 } from "@/core/db/schemas";
-import { and, eq, gt, desc, count, or, ilike, sql } from "drizzle-orm";
+import { and, eq, gt, desc, count, or, ilike } from "drizzle-orm";
 
 export async function listConnectedUsers() {
   const rows = await db
@@ -52,7 +52,7 @@ export async function listRegistrations(options?: {
         ilike(registrationsTable.email, `%${search}%`),
         ilike(registrationsTable.phone_number, `%${search}%`),
         ilike(registrationsTable.ticket_id, `%${search}%`),
-      )
+      ),
     ) as typeof query;
   }
 
@@ -73,8 +73,7 @@ export async function countRegistrations(options?: { search?: string }) {
         ilike(registrationsTable.email, `%${search}%`),
         ilike(registrationsTable.phone_number, `%${search}%`),
         ilike(registrationsTable.ticket_id, `%${search}%`),
-        sql`LOWER(CONCAT(${registrationsTable.firstname}, ' ', ${registrationsTable.lastname})) LIKE ${`%${search}%`}`
-      )
+      ),
     ) as typeof query;
   }
 
