@@ -51,7 +51,6 @@ export async function listRegistrations(options?: {
         ilike(registrationsTable.lastname, `%${search}%`),
         ilike(registrationsTable.email, `%${search}%`),
         ilike(registrationsTable.phone_number, `%${search}%`),
-        ilike(registrationsTable.ticket_id, `%${search}%`),
       ),
     ) as typeof query;
   }
@@ -72,7 +71,6 @@ export async function countRegistrations(options?: { search?: string }) {
         ilike(registrationsTable.lastname, `%${search}%`),
         ilike(registrationsTable.email, `%${search}%`),
         ilike(registrationsTable.phone_number, `%${search}%`),
-        ilike(registrationsTable.ticket_id, `%${search}%`),
       ),
     ) as typeof query;
   }
