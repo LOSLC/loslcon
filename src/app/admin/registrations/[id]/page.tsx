@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/core/dal/session";
-import { getRegistrationById, markRegistrationAttended } from "@/app/actions/loslcon/loslcon";
+import { getRegistrationById, markRegistrationAttended, markRegistrationHadFood } from "@/app/actions/loslcon/loslcon";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -45,6 +45,8 @@ export default async function AdminRegistrationDetailPage({ params }: { params: 
             <div><span className="opacity-70">Transaction:</span> <span className="font-mono text-xs">{r.transaction_id || "—"}</span></div>
             <div><span className="opacity-70">Confirmed:</span> <span>{r.confirmed ? "Yes" : "No"}</span></div>
             <div><span className="opacity-70">Attended:</span> <span>{r.attended ? "Yes" : "No"}</span></div>
+            <div><span className="opacity-70">Attendance Confirmed:</span> <span>{r.attendanceConfirmed ? "Yes" : "No"}</span></div>
+            <div><span className="opacity-70">Had Food:</span> <span>{r.hadFood ? "Yes" : "No"}</span></div>
             <div><span className="opacity-70">Created:</span> <span>{new Date(r.createdAt).toLocaleString()}</span></div>
             <div><span className="opacity-70">Registration ID:</span> <span className="font-mono text-xs break-all">{r.id}</span></div>
           </div>
@@ -52,21 +54,37 @@ export default async function AdminRegistrationDetailPage({ params }: { params: 
 
         <div className="rounded-lg border p-4 h-fit">
           <h2 className="text-lg font-semibold mb-3">Actions</h2>
-          {r.attended ? (
-            <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200">Already marked as attended.</div>
-          ) : (
+          <div className="grid gap-3">
+            {r.attended ? (
+              <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200">Already marked as attended.</div>
+            ) : (
+              <form
+                action={async (fd: FormData) => {
+                  "use server";
+                  fd.set("id", r.id);
+                  await markRegistrationAttended(fd);
+                  redirect(`/admin/registrations/${r.id}`);
+                }}
+              >
+                <Button type="submit" className="w-full">Mark as attended</Button>
+              </form>
+            )}
             <form
               action={async (fd: FormData) => {
                 "use server";
                 fd.set("id", r.id);
-                await markRegistrationAttended(fd);
-                // refresh page
+                if (!r.hadFood) {
+                  fd.set("hadFood", "on");
+                }
+                await markRegistrationHadFood(fd);
                 redirect(`/admin/registrations/${r.id}`);
               }}
             >
-              <Button type="submit">Mark as attended</Button>
+              <Button type="submit" variant="outline" className="w-full">
+                {r.hadFood ? "Mark as did not have food" : "Mark as had food"}
+              </Button>
             </form>
-          )}
+          </div>
         </div>
       </div>
     </main>

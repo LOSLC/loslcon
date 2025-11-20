@@ -59,13 +59,17 @@ export default async function AdminDashboardPage({
     10,
   );
   const perPage = 25;
+  const qRaw = sp.q;
+  const q = (Array.isArray(qRaw) ? qRaw.join(" ") : (qRaw ?? ""))
+    .toString()
+    .trim();
 
   const [sessions, regs, allRegs, totalCount, config, tickets] =
     await Promise.all([
       listConnectedUsers(),
-      listRegistrations({ page, perPage }),
+      listRegistrations({ page, perPage, search: q }),
       listRegistrations({ page: 1, perPage: 10000 }), // Get all for stats
-      countRegistrations(),
+      countRegistrations({ search: q }),
       getRegistrationsConfig(),
       getTickets(),
     ]);
@@ -80,7 +84,9 @@ export default async function AdminDashboardPage({
   const confirmedRegs = allRegs.filter((r) => r.confirmed).length;
   const unconfirmedRegs = totalRegs - confirmedRegs;
   const attendedRegs = allRegs.filter((r) => r.attended).length;
-  const attendanceConfirmedRegs = allRegs.filter((r) => r.attendanceConfirmed).length;
+  const attendanceConfirmedRegs = allRegs.filter(
+    (r) => r.attendanceConfirmed,
+  ).length;
   const perTicket = tickets.map((t) => {
     const rs = allRegs.filter((r) => r.ticket_id === t.id);
     const total = rs.length;
@@ -90,35 +96,11 @@ export default async function AdminDashboardPage({
     return { t, total, confirmed, unconfirmed, attended };
   });
 
-  // Fuzzy-ish search (case-insensitive substring across multiple fields)
-  const qRaw = sp.q;
-  const q = (Array.isArray(qRaw) ? qRaw.join(" ") : (qRaw ?? ""))
-    .toString()
-    .trim()
-    .toLowerCase();
-  const ticketNameById = new Map(tickets.map((t) => [t.id, t.name] as const));
-  const filteredRegs = q
-    ? regs.filter((r) => {
-        const hay = [
-          r.firstname,
-          r.lastname,
-          r.email,
-          r.phone_number,
-          ticketNameById.get(r.ticket_id) ?? r.ticket_id,
-        ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-        return hay.includes(q);
-      })
-    : regs;
-
   return (
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
 
       <BroadcastForm />
-      <AttendanceBroadcast />
 
       {/* Stats */}
       <section className="mt-6 grid gap-4">
@@ -215,7 +197,7 @@ export default async function AdminDashboardPage({
         <RegistrationSearch />
       </div>
       <RegistrationsTable
-        registrations={filteredRegs}
+        registrations={regs}
         tickets={tickets}
         currentPage={page}
         totalPages={totalPages}

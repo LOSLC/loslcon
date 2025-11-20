@@ -65,4 +65,9 @@ export const PARTNERS: Partner[] = [
     imageFile: "/partners/rekap.png",
     url: "https://rekap.media",
   },
+  {
+    name: "RedTeam-TG",
+    imageFile: "/partners/rtg.png",
+    url: "https://www.redteam-tg.com",
+  }
 ];

@@ -1,0 +1,1 @@
+ALTER TABLE "registrations" ADD COLUMN "had_food" boolean DEFAULT false NOT NULL;
