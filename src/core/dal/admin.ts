@@ -52,7 +52,6 @@ export async function listRegistrations(options?: {
         ilike(registrationsTable.email, `%${search}%`),
         ilike(registrationsTable.phone_number, `%${search}%`),
         ilike(registrationsTable.ticket_id, `%${search}%`),
-        sql`LOWER(CONCAT(${registrationsTable.firstname}, ' ', ${registrationsTable.lastname})) LIKE ${`%${search}%`}`
       )
     ) as typeof query;
   }
