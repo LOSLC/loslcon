@@ -57,6 +57,13 @@
       "when": 1762867018325,
       "tag": "0007_hot_unicorn",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1763625375709,
+      "tag": "0008_bizarre_pandemic",
+      "breakpoints": true
     }
   ]
 }

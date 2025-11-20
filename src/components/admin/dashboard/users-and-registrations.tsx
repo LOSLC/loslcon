@@ -1,9 +1,11 @@
+"use client";
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ConfirmDeleteRegistration } from "@/components/admin/confirm-delete-registration";
-import { updateRegistration, deleteRegistration } from "@/app/actions/loslcon/loslcon";
-import { redirect } from "next/navigation";
+import { updateRegistration, deleteRegistration, markRegistrationHadFood } from "@/app/actions/loslcon/loslcon";
+import { useRouter } from "next/navigation";
 
 export function ConnectedUsersTable({ sessions }: { sessions: Array<{ sessionId: string; fullName: string; email: string; createdAt: string | number | Date; expiresAt: string | number | Date }> }) {
   return (
@@ -58,12 +60,14 @@ export function RegistrationsTable({
     confirmed: boolean; 
     attended: boolean;
     attendanceConfirmed: boolean;
+    hadFood: boolean;
     createdAt: string | number | Date 
   }>;
   tickets: Array<{ id: string; name: string; price: number }>;
   currentPage?: number;
   totalPages?: number;
 }) {
+  const router = useRouter();
   return (
     <section className="mt-10">
       <div className="mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -76,7 +80,7 @@ export function RegistrationsTable({
         </a>
       </div>
       <div className="overflow-x-auto">
-        <Table className="min-w-[1000px]">
+        <Table className="min-w-[1100px]">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
@@ -86,13 +90,18 @@ export function RegistrationsTable({
               <TableHead>Confirmed</TableHead>
               <TableHead>Attended</TableHead>
               <TableHead>Will Attend</TableHead>
+              <TableHead>Had Food</TableHead>
               <TableHead>Date</TableHead>
               <TableHead className="sr-only">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {registrations.map((r) => (
-              <TableRow key={r.id}>
+              <TableRow 
+                key={r.id} 
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => router.push(`/admin/registrations/${r.id}`)}
+              >
                 <TableCell>
                   {r.firstname} {r.lastname}
                 </TableCell>
@@ -108,26 +117,45 @@ export function RegistrationsTable({
                     <span className="text-muted-foreground">—</span>
                   )}
                 </TableCell>
+                <TableCell onClick={(e) => e.stopPropagation()}>
+                  <form
+                    action={async (fd: FormData) => {
+                      fd.set("id", r.id);
+                      await markRegistrationHadFood(fd);
+                      router.refresh();
+                    }}
+                    className="inline"
+                  >
+                    <label className="inline-flex items-center gap-1.5 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        name="hadFood" 
+                        defaultChecked={r.hadFood}
+                        onChange={(e) => e.currentTarget.form?.requestSubmit()}
+                        className="cursor-pointer"
+                      />
+                      <span className="text-xs">{r.hadFood ? "Yes" : "No"}</span>
+                    </label>
+                  </form>
+                </TableCell>
                 <TableCell>{new Date(r.createdAt).toLocaleString()}</TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
                   <details className="inline-block text-left">
                     <summary className="cursor-pointer text-sm opacity-80 select-none">Manage</summary>
                     <div className="mt-3 grid gap-2 p-3 rounded-md border bg-background/60">
                       <ConfirmDeleteRegistration
                         id={r.id}
                         action={async (fd: FormData) => {
-                          "use server";
                           fd.set("id", r.id);
                           await deleteRegistration(fd);
-                          redirect("/admin/dashboard");
+                          router.push("/admin/dashboard");
                         }}
                       />
                       <form
                         action={async (fd: FormData) => {
-                          "use server";
                           fd.set("id", r.id);
                           await updateRegistration(fd);
-                          redirect("/admin/dashboard");
+                          router.refresh();
                         }}
                         className="grid grid-cols-2 gap-2"
                       >

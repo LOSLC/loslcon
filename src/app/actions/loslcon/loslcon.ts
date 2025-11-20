@@ -611,6 +611,21 @@ export async function markRegistrationAttended(form: FormData) {
   return { message: "Marked as attended." } as const;
 }
 
+export async function markRegistrationHadFood(form: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.accessLevel > 0) {
+    return { error: "Unauthorized" } as const;
+  }
+  const id = String(form.get("id") || "").trim();
+  if (!id) return { error: "Missing registration id" } as const;
+  const hadFood = form.get("hadFood") != null;
+  await db
+    .update(registrationsTable)
+    .set({ hadFood })
+    .where(eq(registrationsTable.id, id));
+  return { message: hadFood ? "Marked as had food." : "Marked as did not have food." } as const;
+}
+
 // Admin: update and delete registrations
 const registrationUpdateSchema = z.object({
   id: z.uuid(),
