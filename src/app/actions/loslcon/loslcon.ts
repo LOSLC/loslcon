@@ -626,6 +626,57 @@ export async function markRegistrationHadFood(form: FormData) {
   return { message: hadFood ? "Marked as had food." : "Marked as did not have food." } as const;
 }
 
+export async function createManualRegistration(form: FormData) {
+  const user = await getCurrentUser();
+  if (!user || user.accessLevel > 0) {
+    return { error: "Unauthorized" } as const;
+  }
+
+  const firstname = String(form.get("firstname") || "").trim();
+  const lastname = String(form.get("lastname") || "").trim();
+  const email = String(form.get("email") || "").trim();
+  const phone_number = String(form.get("phone_number") || "").trim();
+  const ticket_id = String(form.get("ticket_id") || "").trim();
+
+  if (!firstname || !lastname || !email || !phone_number || !ticket_id) {
+    return { error: "All fields are required" } as const;
+  }
+
+  // Check if already registered
+  const existing = await db
+    .select()
+    .from(registrationsTable)
+    .where(
+      and(
+        eq(registrationsTable.email, email),
+        eq(registrationsTable.confirmed, true)
+      )
+    )
+    .limit(1);
+
+  if (existing.length > 0) {
+    return { error: "This email is already registered for the event" } as const;
+  }
+
+  // Create registration with confirmed status
+  const [registration] = await db
+    .insert(registrationsTable)
+    .values({
+      firstname,
+      lastname,
+      email,
+      phone_number,
+      ticket_id,
+      confirmed: true, // Auto-confirm manual registrations
+      attended: false,
+      attendanceConfirmed: false,
+      hadFood: false,
+    })
+    .returning();
+
+  return registration.id;
+}
+
 // Admin: update and delete registrations
 const registrationUpdateSchema = z.object({
   id: z.uuid(),

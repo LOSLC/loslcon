@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { RegistrationSettingsForm } from "@/components/admin/registration-settings-form";
 import { BroadcastForm } from "@/components/admin/dashboard/broadcast-form";
 import { AttendanceBroadcast } from "@/components/admin/dashboard/attendance-broadcast";
+import Link from "next/link";
 import {
   SummaryStats,
   PerTicketTable,
@@ -195,6 +196,9 @@ export default async function AdminDashboardPage({
       {/* Registrations search + table */}
       <div className="mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <RegistrationSearch />
+        <Link href="/admin/registrations/new">
+          <Button>Add Registration</Button>
+        </Link>
       </div>
       <RegistrationsTable
         registrations={regs}
